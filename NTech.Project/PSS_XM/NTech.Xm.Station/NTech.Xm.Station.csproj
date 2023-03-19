@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3D076E6D-6F68-4D52-9BC0-07C6CAA6DEE0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>NTech.Xm.Station</RootNamespace>
+    <AssemblyName>NTech.Xm.Station</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\..\..\CUSTOMER\PSS\PROJECT\NT01-PROJECT_XM_PSS_18082022\Deloy\Line3\x64\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\..\..\CUSTOMER\PSS\PROJECT\NT01-PROJECT_XM_PSS_18082022\Deloy\Line3\x86\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BespokeFusion, Version=3.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MaterialMessageBox.4.0.2\lib\net48\BespokeFusion.dll</HintPath>
+    </Reference>
+    <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ControlzEx.4.4.0\lib\net462\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=4242.42.42.42, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\JetBrains.Annotations.2022.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MahApps.Metro.2.4.9\lib\net47\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Core">
+      <HintPath>..\..\..\packages\IconPacks\MahApps.Metro.IconPacks.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Material">
+      <HintPath>..\..\..\packages\IconPacks\MahApps.Metro.IconPacks.Material.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Modern">
+      <HintPath>..\..\..\packages\IconPacks\MahApps.Metro.IconPacks.Modern.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=2.0.0.2422, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MaterialDesignColors.2.0.0\lib\net452\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=4.0.0.2422, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MaterialDesignThemes.4.0.0\lib\net452\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.31\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Command\CancelSelectionsCmd.cs" />
+    <Compile Include="Command\CheckSingleStatusLEDTableFixedCmd.cs" />
+    <Compile Include="Command\CheckAllStatusLEDTableFixedCmd.cs" />
+    <Compile Include="Command\ClosingCmd.cs" />
+    <Compile Include="Command\EditMessagePrintedCmd.cs" />
+    <Compile Include="Command\LoadPrintMessageCmd.cs" />
+    <Compile Include="Command\DisconnectPrinterCmd.cs" />
+    <Compile Include="Command\ConnectPrinterCmd.cs" />
+    <Compile Include="Command\DeleteMessageDataCmd.cs" />
+    <Compile Include="Command\DownloadMessageDataCmd.cs" />
+    <Compile Include="Command\LoginCmd.cs" />
+    <Compile Include="Command\LogoutCmd.cs" />
+    <Compile Include="Command\PressF5KeyCmd.cs" />
+    <Compile Include="Command\PreviewMouseLeftButtonDownCmd.cs" />
+    <Compile Include="Command\ReconnectCmd.cs" />
+    <Compile Include="Command\ReprintCmd.cs" />
+    <Compile Include="Command\SaveEditPrintedCmd.cs" />
+    <Compile Include="Command\SaveMsgParamCmd.cs" />
+    <Compile Include="Command\StopPrintCmd.cs" />
+    <Compile Include="Command\StartJetCmd.cs" />
+    <Compile Include="Command\SearchCmd.cs" />
+    <Compile Include="Command\PreviewMouseRightButtonDownCmd.cs" />
+    <Compile Include="Command\RequestPrintStatusCmd.cs" />
+    <Compile Include="Command\PushMessageAndContentLEDCmd.cs" />
+    <Compile Include="Command\SelectedItemChangeCmd.cs" />
+    <Compile Include="Command\ToggleCheckedCmd.cs" />
+    <Compile Include="Command\ToggleUncheckedCmd.cs" />
+    <Compile Include="Commons\CommandFaultCodeList.cs" />
+    <Compile Include="Commons\Defines\Define.cs" />
+    <Compile Include="Controls\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\EnumDescriptionConverter.cs" />
+    <Compile Include="Converters\Printer\PrinterStateToBoolean2Converter.cs" />
+    <Compile Include="Converters\Printer\PrinterStateToBooleanConverter.cs" />
+    <Compile Include="Converters\Printer\PrinterStateToForegroundConverter.cs" />
+    <Compile Include="Converters\Printer\PrinterStateToBackgroundConverter.cs" />
+    <Compile Include="Converters\Printer\PrinterStateToIconConverter.cs" />
+    <Compile Include="Converters\Printer\PrinterStateToString2Converter.cs" />
+    <Compile Include="Converters\Printer\PrinterStateToStringConverter.cs" />
+    <Compile Include="Converters\Printer\PrinterStateToVisibility2Converter.cs" />
+    <Compile Include="Converters\Printer\PrinterStateToVisibilityConverter.cs" />
+    <Compile Include="Converters\IsCheckedReverseConverter.cs" />
+    <Compile Include="Converters\SearchValueConverter.cs" />
+    <Compile Include="Converters\Trough\TroughStateToBooleanConverter.cs" />
+    <Compile Include="Converters\Trough\TroughStateToForegroundConverter.cs" />
+    <Compile Include="Converters\Trough\TroughStateToVisibilityConverter.cs" />
+    <Compile Include="Models\IPTroughList.cs" />
+    <Compile Include="Models\IPPrinterList.cs" />
+    <Compile Include="Models\LineSetting.cs" />
+    <Compile Include="Utils\BindableSelectedItemBehavior.cs" />
+    <Compile Include="Utils\CSDKExport.cs" />
+    <Compile Include="ViewModels\EditMessagePrintedViewModel.cs" />
+    <Compile Include="ViewModels\LineViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PrinterViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\TroughViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\EditMessagePrintedView.xaml.cs">
+      <DependentUpon>EditMessagePrintedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PrinterDetailView.xaml.cs">
+      <DependentUpon>PrinterDetailView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Controls\LoginView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Views\EditMessagePrintedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PrinterDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\icons\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\NTech.Base.Commons\NTech.Base.Commons.csproj">
+      <Project>{6c34ccde-f596-46f9-ad17-dd4f80f6c862}</Project>
+      <Name>NTech.Base.Commons</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\NTech.Base.Database\NTech.Base.DataBase.csproj">
+      <Project>{9a6f3429-d5b6-44dc-b6ce-27866a78d557}</Project>
+      <Name>NTech.Base.DataBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\NTech.Base.Resources\NTech.Base.Resources.csproj">
+      <Project>{659e601e-2877-481e-aef1-492ac4fcde57}</Project>
+      <Name>NTech.Base.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\NTech.Base.Wpf\NTech.Base.Wpf.csproj">
+      <Project>{afb2d69a-41da-49e0-8a45-596b97f2c234}</Project>
+      <Name>NTech.Base.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTech.Xm.Commons\NTech.Xm.Commons.csproj">
+      <Project>{15039322-897e-4ac3-83e8-fa23e4d29e4a}</Project>
+      <Name>NTech.Xm.Commons</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTech.Xm.Database\NTech.Xm.Database.csproj">
+      <Project>{2BCA4D48-0485-466E-8ED4-73D7FE7AACDC}</Project>
+      <Name>NTech.Xm.Database</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\images\linx_printer_5900_png.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets" Condition="Exists('..\..\..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets'))" />
+  </Target>
+</Project>

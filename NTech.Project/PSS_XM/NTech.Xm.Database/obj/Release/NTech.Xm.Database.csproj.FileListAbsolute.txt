@@ -1,0 +1,14 @@
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Database\bin\Release\NTech.Xm.Database.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Database\bin\Release\NTech.Xm.Database.pdb
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Database\bin\Release\NTech.Base.Commons.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Database\bin\Release\NTech.Base.DataBase.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Database\bin\Release\Microsoft.Practices.EnterpriseLibrary.Data.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Database\bin\Release\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Database\bin\Release\Microsoft.Practices.ObjectBuilder.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Database\bin\Release\NTech.Base.Commons.pdb
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Database\bin\Release\NTech.Base.DataBase.pdb
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Database\obj\Release\NTech.Xm.Database.csproj.AssemblyReference.cache
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Database\obj\Release\NTech.Xm.Database.csproj.CoreCompileInputs.cache
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Database\obj\Release\NTech.Xm.Database.csproj.CopyComplete
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Database\obj\Release\NTech.Xm.Database.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Database\obj\Release\NTech.Xm.Database.pdb

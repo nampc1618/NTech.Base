@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<IPList>
+	<IPAddressPrinterList>192.168.0.10</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.11</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.12</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.13</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.14</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.15</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.16</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.17</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.18</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.19</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.20</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.21</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.22</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.23</IPAddressPrinterList>
+	
+	
+	<IPAddressTroughList>192.168.0.24</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.25</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.26</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.27</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.28</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.29</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.30</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.31</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.32</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.33</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.34</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.35</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.36</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.37</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.38</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.39</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.40</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.41</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.42</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.43</IPAddressTroughList>
+	<IPAddressTroughList>192.168.0.44</IPAddressTroughList>
+</IPList>

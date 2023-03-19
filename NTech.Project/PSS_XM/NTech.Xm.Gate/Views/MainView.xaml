@@ -1,0 +1,989 @@
+﻿<mah:MetroWindow xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:local="clr-namespace:NTech.Xm.Gate.Views"
+                 xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                 xmlns:converters="http://metro.mahapps.com/winfx/xaml/shared"
+                 xmlns:cvt="clr-namespace:NTech.Xm.Gate.Converters"
+                 xmlns:search="clr-namespace:NTech.Xm.Commons.Defines;assembly=NTech.Xm.Commons"
+                 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                 xmlns:System="clr-namespace:System;assembly=mscorlib"
+                 xmlns:vm="clr-namespace:NTech.Xm.Gate.ViewModels"
+                 xmlns:Ctrls="clr-namespace:NTech.Xm.Gate.Controls"
+                 xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+                 x:Class="NTech.Xm.Gate.Views.MainView"
+                 mc:Ignorable="d"
+                 Title="MainView"
+                 TitleCharacterCasing="Upper"
+                 Height="720"
+                 Width="1280"
+                 MinWidth="600"
+                 MinHeight="400"
+                 BorderThickness="1"
+                 ResizeMode="CanResizeWithGrip"
+                 WindowTransitionsEnabled="False"
+                 d:DataContext="{d:DesignInstance vm:MainViewModel}"
+                 d:DesignHeight="400"
+                 d:DesignWidth="600"
+                 WindowStartupLocation="CenterScreen"
+                 GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
+                 TitleBarHeight="45"
+                 Loaded="MetroWindow_Loaded"
+                 Name="mainView">
+    <mah:MetroWindow.Resources>
+        <!-- for ne metro style -->
+        <Style TargetType="{x:Type DataGridColumnHeadersPresenter}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridColumnHeadersPresenter">
+                        <Grid>
+                            <Border IsHitTestVisible="False"
+                                    BorderThickness="0 0 0 3"
+                                    Background="Transparent"
+                                    BorderBrush="{DynamicResource GrayBrush5}" />
+                            <ItemsPresenter />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontSize"
+                    Value="22" />
+            <Setter Property="FontWeight"
+                    Value="SemiBold" />
+        </Style>
+        <cvt:TextToEnableMultiConverter x:Key="TextToEnableMultiConverter" />
+        <cvt:SearchValueConverter x:Key="SearchValueConverter"/>
+    </mah:MetroWindow.Resources>
+    <mah:MetroWindow.RightWindowCommands>
+        <mah:WindowCommands>
+            <ToggleButton Name="TogbtnSettings"
+                          Margin="5">
+                <ToggleButton.Template>
+                    <ControlTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconModern Width="16"
+                                                      Height="16"
+                                                      VerticalAlignment="Center"
+                                                      Kind="Settings" />
+                            <TextBlock Margin="5 0 5 0"
+                                       VerticalAlignment="Center"
+                                       FontSize="20"
+                                       Text="Cài đặt" />
+                        </StackPanel>
+                    </ControlTemplate>
+                </ToggleButton.Template>
+            </ToggleButton>
+            <ToggleButton Name="TogbtnLogin"
+                          Margin="5">
+                <ToggleButton.Template>
+                    <ControlTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconMaterial Width="16"
+                                                        Height="16"
+                                                        VerticalAlignment="Center"
+                                                        Kind="Account" />
+                            <TextBlock Margin="5 0 5 0"
+                                       VerticalAlignment="Center"
+                                       FontSize="20"
+                                       Text="Đăng nhập" />
+                        </StackPanel>
+                    </ControlTemplate>
+                </ToggleButton.Template>
+            </ToggleButton>
+            <ToggleButton Name="TogbtnAbout"
+                          Margin="5">
+                <ToggleButton.Template>
+                    <ControlTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconMaterial Width="16"
+                                                        Height="16"
+                                                        VerticalAlignment="Center"
+                                                        Kind="Information" />
+                            <TextBlock Margin="5 0 5 0"
+                                       VerticalAlignment="Center"
+                                       FontSize="20"
+                                       Text="Thông tin" />
+                        </StackPanel>
+                    </ControlTemplate>
+                </ToggleButton.Template>
+            </ToggleButton>
+        </mah:WindowCommands>
+    </mah:MetroWindow.RightWindowCommands>
+    <mah:MetroWindow.Flyouts>
+        <mah:FlyoutsControl>
+            <mah:Flyout x:Name="flySettingsView"
+                        MinWidth="450"
+                        Background="#FF323232"
+                        CloseButtonVisibility="Visible"
+                        Header="Cài đặt"
+                        IsModal="True"
+                        IsOpen="{Binding ElementName=TogbtnSettings, Path=IsChecked, Mode=TwoWay}"
+                        Position="Right"
+                        IsOpenChanged="Flyout_IsOpenChanged">
+                <Ctrls:SettingsView Margin="10"
+                                    x:Name="settingsView" />
+            </mah:Flyout>
+            <mah:Flyout x:Name="flyLoginView"
+                        MinWidth="450"
+                        Background="#FF323232"
+                        CloseButtonVisibility="Visible"
+                        DataContext="{Binding}"
+                        Header="Đăng nhập"
+                        IsModal="True"
+                        IsOpen="{Binding ElementName=TogbtnLogin, Path=IsChecked, Mode=TwoWay}"
+                        Position="Right">
+
+                <Ctrls:LoginView x:Name="loginView"
+                                 VerticalAlignment="Top"
+                                 Margin="10" />
+            </mah:Flyout>
+            <mah:Flyout MinWidth="450"
+                        Width="800"
+                        Background="#FF323232"
+                        CloseButtonVisibility="Visible"
+                        DataContext="{Binding}"
+                        Header="Thông tin"
+                        IsModal="True"
+                        IsOpen="{Binding ElementName=TogbtnAbout, Path=IsChecked, Mode=TwoWay}"
+                        Position="Right">
+                <Grid Height="600">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Copyright @2022 by NTech"
+                                   Margin="20 0 0 0"
+                                   FontSize="26"
+                                   FontStyle="Italic" />
+                        <TextBlock Text="Bản quyền thuộc về NTech. Mọi chi tiết xin liên hệ Hotline/Zalo: 0988.794.264"
+                                   Margin="20 20 0 0"
+                                   FontSize="20" />
+                    </StackPanel>
+                    <Border Grid.Row="1">
+                        <Image Source="{DynamicResource IMG_NTechInfo}"
+                               Margin="10"
+                               Stretch="Uniform" />
+                    </Border>
+                </Grid>
+            </mah:Flyout>
+        </mah:FlyoutsControl>
+    </mah:MetroWindow.Flyouts>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="35" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="4*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*" />
+                <RowDefinition Height="2.6*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0"
+                  Grid.Column="0">
+                <Border BorderThickness="2"
+                        Margin="2"
+                        BorderBrush="MidnightBlue"
+                        CornerRadius="5"
+                        IsEnabled="{Binding IsLoginSuccess}">
+                    <Grid Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Border Grid.Row="0"
+                                    Height="48"
+                                    Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
+                                    BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+                                    BorderThickness="0 0 0 3"
+                                    DockPanel.Dock="Top">
+                                <DockPanel LastChildFill="True">
+                                    <mah:TransitioningContentControl VerticalAlignment="Center"
+                                                                     Content="{Binding ElementName=NavigationListBox, Path=SelectedItem.Caption}"
+                                                                     FontSize="30"
+                                                                     FontWeight="DemiBold"
+                                                                     Foreground="{DynamicResource MahApps.Brushes.Highlight}"
+                                                                     RestartTransitionOnContentChange="True" />
+                                    <TextBox x:Name="txtSearchBox"
+                                             MinWidth="400"
+                                             Margin="5"
+                                             mah:TextBoxHelper.Watermark="Tìm kiếm"
+                                             mah:TextBoxHelper.ClearTextButton="True"
+                                             DockPanel.Dock="Right"
+                                             Style="{DynamicResource NTech.Base.Wpf.Styles.TextBox.Search}"
+                                             FontSize="20"
+                                             VerticalContentAlignment="Center"
+                                             HorizontalContentAlignment="Left" />
+                                </DockPanel>
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <DataGrid x:Name="dgCustomer"
+                                      search:DataGridTextSearch.SearchValue="{Binding ElementName=txtSearchBox, Path=Text, UpdateSourceTrigger=PropertyChanged}"
+                                      Margin="2"
+                                      FontSize="22"
+                                      AutoGenerateColumns="False"
+                                      RenderOptions.ClearTypeHint="Enabled"
+                                      SelectionUnit="FullRow"
+                                      TextOptions.TextFormattingMode="Display"
+                                      CanUserAddRows="False"
+                                      CanUserReorderColumns="False"
+                                      CanUserResizeColumns="False"
+                                      CanUserResizeRows="False"
+                                      EnableColumnVirtualization="True"
+                                      EnableRowVirtualization="True"
+                                      SelectedItem="{Binding CustomerModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      ItemsSource="{Binding CustomerModelList, UpdateSourceTrigger=PropertyChanged}"
+                                      Style="{StaticResource MahApps.Styles.DataGrid.Azure}"
+                                      SelectionChanged="dgCustomer_SelectionChanged">
+                                <DataGrid.Resources>
+                                    <Style TargetType="{x:Type DataGridCell}">
+                                        <Setter Property="search:DataGridTextSearch.IsTextMatch">
+                                            <Setter.Value>
+                                                <MultiBinding Converter="{StaticResource SearchValueConverter}">
+                                                    <Binding RelativeSource="{RelativeSource Self}"
+                                                             Path="Content.Text" />
+                                                    <Binding RelativeSource="{RelativeSource Self}"
+                                                             Path="(search:DataGridTextSearch.SearchValue)" />
+                                                </MultiBinding>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <!--<Trigger Property="search:DataGridTextSearch.IsTextMatch"
+                                                     Value="True">
+                                                <Setter Property="Background"
+                                                        Value="Orange" />
+                                            </Trigger>-->
+                                            <Trigger Property="search:DataGridTextSearch.IsTextMatch"
+                                                     Value="True">
+                                                <Setter Property="Background"
+                                                        Value="Orange" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.Resources>
+                                <DataGrid.Columns>
+                                    <DataGridCheckBoxColumn Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"
+                                                            EditingElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                                            ElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                                            Header="" />
+                                    <DataGridTextColumn Header="Mã Khách Hàng"
+                                                        Binding="{Binding CustomerCode}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False"
+                                                        MinWidth="250" />
+                                    <DataGridTextColumn Header="Tên Khách Hàng"
+                                                        Binding="{Binding CustomerName}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False"
+                                                        MinWidth="450" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="0"
+                  Grid.Column="1"
+                  Margin="2">
+                <Border BorderThickness="2"
+                        BorderBrush="MidnightBlue"
+                        CornerRadius="5"
+                        IsEnabled="{Binding IsLoginSuccess}">
+                    <GroupBox Header="Thông số"
+                              Margin="12"
+                              Padding="5"
+                              mah:HeaderedControlHelper.HeaderFontSize="20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="6.5*" />
+                            </Grid.RowDefinitions>
+                            <Border Margin="2"
+                                    BorderBrush="MidnightBlue"
+                                    CornerRadius="5"
+                                    BorderThickness="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="4*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Name="tbCustomerCode"
+                                               Text="{Binding CustomerModel.CustomerCode}"
+                                               FontSize="30"
+                                               FontWeight="SemiBold"
+                                               TextAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Margin="20 0 0 0" />
+                                    <TextBlock Grid.Column="1"
+                                               Name="tbCustomerName"
+                                               Text="{Binding CustomerModel.CustomerName}"
+                                               FontSize="30"
+                                               FontWeight="SemiBold"
+                                               TextAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Margin="20 0 0 0" />
+                                </Grid>
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Margin="2"
+                                    BorderBrush="MidnightBlue"
+                                    BorderThickness="1"
+                                    CornerRadius="5">
+                                <Grid Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="2.2*" />
+                                    </Grid.RowDefinitions>
+                                    <DockPanel Grid.Row="0"
+                                               Grid.Column="0"
+                                               Margin="20 0 0 0"
+                                               LastChildFill="True">
+                                        <TextBlock Text="Số phiếu:"
+                                                   FontSize="20"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center" />
+                                        <TextBox Name="txtCouponCode"
+                                                 GotFocus="txtCouponCode_GotFocus"
+                                                 Height="40"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Stretch"
+                                                 VerticalContentAlignment="Center"
+                                                 Margin="5 0 20 0"
+                                                 mah:TextBoxHelper.Watermark="Nhập số phiếu"
+                                                 mah:TextBoxHelper.ClearTextButton="True"
+                                                 FontSize="20"
+                                                 FontWeight="SemiBold"
+                                                 Text="{Binding MessagesDetailModel.CouponCode, Mode=TwoWay}" />
+                                    </DockPanel>
+                                    <DockPanel Grid.Row="1"
+                                               Grid.Column="0"
+                                               Margin="20 0 0 0"
+                                               LastChildFill="True">
+                                        <TextBlock Text="Biển số:"
+                                                   FontSize="20"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center" />
+                                        <TextBox Name="txtLicensePlate"
+                                                GotFocus="txtLicensePlate_GotFocus"
+                                                 Height="40"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Stretch"
+                                                 VerticalContentAlignment="Center"
+                                                 Margin="20 0 20 0"
+                                                 mah:TextBoxHelper.Watermark="Nhập biển số"
+                                                 mah:TextBoxHelper.ClearTextButton="True"
+                                                 FontSize="20"
+                                                 FontWeight="SemiBold"
+                                                 Text="{Binding MessagesDetailModel.LicensePlate, Mode=TwoWay}" />
+                                    </DockPanel>
+                                    <DockPanel Grid.Row="2"
+                                               Grid.Column="0"
+                                               Margin="20 0 0 0"
+                                               LastChildFill="True">
+                                        <TextBlock Text="Số tấn:"
+                                                   FontSize="20"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center" />
+                                        <TextBox x:Name="txtWeightTon"
+                                                
+                                                 Height="40"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Stretch"
+                                                 VerticalContentAlignment="Center"
+                                                 Margin="25 0 20 0"
+                                                 mah:TextBoxHelper.Watermark="Nhập số tấn"
+                                                 mah:TextBoxHelper.ClearTextButton="True"
+                                                 FontSize="20"
+                                                 FontWeight="SemiBold"
+                                                 GotFocus="txtWeightTon_GotFocus"
+                                                 LostFocus="txtWeightTon_LostFocus"
+                                                 Text="{Binding MessagesDetailModel.WeightTon, Mode=TwoWay}" />
+                                    </DockPanel>
+                                    <DockPanel Grid.Row="3"
+                                               Grid.Column="0"
+                                               Margin="20 0 0 0"
+                                               LastChildFill="True">
+                                        <TextBlock Text="Số bao:"
+                                                   FontSize="20"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center" />
+                                        <Label Name="lblNumberBag"
+                                               IsEnabled="False"
+                                               Height="40"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Stretch"
+                                               VerticalContentAlignment="Center"
+                                               HorizontalContentAlignment="Center"
+                                               Margin="28 0 20 0"
+                                               FontSize="20"
+                                               FontWeight="SemiBold"
+                                               Background="AliceBlue"
+                                               Content="{Binding MessagesDetailModel.NumberBags, Mode=TwoWay}" />
+                                    </DockPanel>
+                                    <DockPanel Grid.Row="4"
+                                               Grid.Column="0"
+                                               Margin="20 0 0 0"
+                                               LastChildFill="True">
+                                        <TextBlock Text="Loại vỏ bao:"
+                                                   FontSize="20"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center" />
+                                        <ComboBox Margin="10 0 20 0"
+                                                 
+                                                  Height="40"
+                                                  FontSize="20"
+                                                  FontWeight="SemiBold"
+                                                  Name="cbbBagCoverType"
+                                                  GotFocus="cbbBagCoverType_GotFocus"
+                                                  SelectionChanged="cbbBagCoverType_SelectionChanged"
+                                                  ItemsSource="{Binding SettingsViewModel.BagCoverList}"
+                                                  SelectedItem="{Binding MessagesDetailModel.BagCoverType, Mode=TwoWay}" />
+                                    </DockPanel>
+                                    <DockPanel Grid.Row="0"
+                                               Grid.Column="1"
+                                               Margin="20 0 10 0"
+                                               LastChildFill="True">
+                                        <TextBlock Text="Loại xi măng:"
+                                                   FontSize="20"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center" />
+                                        <ComboBox Margin="10 0 20 0"
+                                                 
+                                                  Height="40"
+                                                  FontSize="20"
+                                                  FontWeight="SemiBold"
+                                                  Name="cbbCementType"
+                                                  ItemsSource="{Binding SettingsViewModel.ProductList, UpdateSourceTrigger=PropertyChanged}"
+                                                  SelectedItem="{Binding MessagesDetailModel.CementType, Mode=TwoWay}" />
+                                    </DockPanel>
+                                    <DockPanel Grid.Row="1"
+                                               Grid.Column="1"
+                                               Margin="20 0 10 0"
+                                               LastChildFill="True">
+                                        <TextBlock Text="Thương hiệu:"
+                                                   FontSize="20"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center" />
+                                        <ComboBox Margin="10 0 20 0"
+                                                 
+                                                  Height="40"
+                                                  FontSize="20"
+                                                  FontWeight="SemiBold"
+                                                  Name="cbbBrand"
+                                                  ItemsSource="{Binding SettingsViewModel.CementBrandList}"
+                                                  SelectedItem="{Binding MessagesDetailModel.Brand, Mode=TwoWay}" />
+                                    </DockPanel>
+                                    <DockPanel Grid.Row="2"
+                                               Grid.Column="1"
+                                               Margin="20 0 10 0"
+                                               LastChildFill="True">
+                                        <TextBlock Text="Cách xếp hàng:"
+                                                   FontSize="20"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center" />
+                                        <ComboBox Margin="10 0 20 0"
+                                                  
+                                                  Height="40"
+                                                  FontSize="20"
+                                                  FontWeight="SemiBold"
+                                                  Name="cbbArrangeType"
+                                                  ItemsSource="{Binding SettingsViewModel.ArrangeProductList}"
+                                                  SelectedItem="{Binding MessagesDetailModel.ArrangeType, Mode=TwoWay}" />
+                                    </DockPanel>
+                                    <DockPanel Grid.Row="3"
+                                               Grid.Column="1"
+                                               Margin="20 0 10 0"
+                                               LastChildFill="True">
+                                        <TextBlock Text="Ca sản xuất:"
+                                                   FontSize="20"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center" />
+                                        <ComboBox Margin="10 0 20 0"
+                                                  
+                                                  Height="40"
+                                                  FontSize="20"
+                                                  FontWeight="SemiBold"
+                                                  Name="cbbManufacturingShift"
+                                                  ItemsSource="{Binding SettingsViewModel.ShiftList}"
+                                                  SelectedItem="{Binding MessagesDetailModel.ManufacturingShift, Mode=TwoWay}">
+                                        </ComboBox>
+                                    </DockPanel>
+                                    <DockPanel Grid.Row="4"
+                                               Grid.Column="1"
+                                               Margin="20 10 10 0"
+                                               LastChildFill="True">
+                                        <TextBlock Text="Ngày sản xuất:"
+                                                   FontSize="20"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding Source={x:Static System:DateTime.Today}, StringFormat='{}{0:dddd, dd-MM-yyyy}'}"
+                                                   Margin="20 0 0 0"
+                                                   IsEnabled="False"
+                                                   Foreground="Gray"
+                                                   FontSize="20"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center" />
+                                    </DockPanel>
+                                    <StackPanel Grid.Column="0"
+                                                Grid.Row="5"
+                                                Grid.ColumnSpan="2"
+                                                Orientation="Horizontal"
+                                                HorizontalAlignment="Right">
+                                        <Button Name="btnSave"
+                                                
+                                                Content="LƯU"
+                                                Width="200"
+                                                Height="60"
+                                                Background="MidnightBlue"
+                                                Command="{Binding InsertMessageDetailCmd}"
+                                                Style="{DynamicResource NTech.Wpf.ButtonRoundBound}">
+                                            <Button.IsEnabled>
+                                                <MultiBinding Converter="{StaticResource TextToEnableMultiConverter}"
+                                                              Mode="OneWay">
+                                                    <Binding ElementName="tbCustomerCode"
+                                                             Path="Text"
+                                                             Mode="OneWay" />
+                                                    <Binding ElementName="tbCustomerName"
+                                                             Path="Text"
+                                                             Mode="OneWay" />
+                                                    <Binding ElementName="txtCouponCode"
+                                                             Path="Text"
+                                                             Mode="OneWay" />
+                                                    <Binding ElementName="txtLicensePlate"
+                                                             Path="Text"
+                                                             Mode="OneWay" />
+                                                    <Binding ElementName="txtWeightTon"
+                                                             Path="Text"
+                                                             Mode="OneWay" />
+                                                    <Binding ElementName="cbbBagCoverType"
+                                                             Path="SelectedItem"
+                                                             Mode="OneWay" />
+                                                    <Binding ElementName="cbbCementType"
+                                                             Path="SelectedItem"
+                                                             Mode="OneWay" />
+                                                    <Binding ElementName="cbbBrand"
+                                                             Path="SelectedItem"
+                                                             Mode="OneWay" />
+                                                    <Binding ElementName="cbbArrangeType"
+                                                             Path="SelectedItem"
+                                                             Mode="OneWay" />
+                                                    <Binding ElementName="cbbManufacturingShift"
+                                                             Path="SelectedItem"
+                                                             Mode="OneWay" />
+                                                </MultiBinding>
+                                            </Button.IsEnabled>
+                                            <Button.ContentTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <iconPacks:PackIconMaterial Width="26"
+                                                                                    Height="26"
+                                                                                    Margin="0 3 0 0"
+                                                                                    VerticalAlignment="Center"
+                                                                                    HorizontalAlignment="Center"
+                                                                                    Foreground="Orange"
+                                                                                    Kind="ContentSaveAll" />
+                                                        <TextBlock Margin="7 0 0 0"
+                                                                   FontSize="30"
+                                                                   Foreground="White"
+                                                                   FontWeight="SemiBold"
+                                                                   VerticalAlignment="Center"
+                                                                   TextAlignment="Center"
+                                                                   Text="{Binding}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </Button.ContentTemplate>
+                                        </Button>
+                                        <Button Content="CHỌN LẠI"
+                                                Width="200"
+                                                Height="60"
+                                                Background="Crimson"
+                                                Margin="15 0 5 0"
+                                                Command="{Binding CancelSelectionsCmd}"
+                                                Style="{DynamicResource NTech.Wpf.ButtonRoundBound}">
+                                            <Button.ContentTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <iconPacks:PackIconMaterial Width="26"
+                                                                                    Height="26"
+                                                                                    Margin="0 3 0 0"
+                                                                                    VerticalAlignment="Center"
+                                                                                    HorizontalAlignment="Center"
+                                                                                    Foreground="Black"
+                                                                                    Kind="Cancel" />
+                                                        <TextBlock Margin="7 0 0 0"
+                                                                   FontSize="30"
+                                                                   Foreground="White"
+                                                                   VerticalAlignment="Center"
+                                                                   TextAlignment="Center"
+                                                                   FontWeight="SemiBold"
+                                                                   Text="{Binding}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </Button.ContentTemplate>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </GroupBox>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="1"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="2"
+                  Margin="2">
+                <Border BorderThickness="2"
+                        BorderBrush="MidnightBlue"
+                        CornerRadius="5"
+                        IsEnabled="{Binding IsLoginSuccess}">
+                    <mah:MetroTabControl>
+                        <TabItem Header="Bản tin mới"
+                                 Focusable="False">
+                            <DataGrid Name="dgNewMessages"
+                                      TabIndex="999"
+                                      Margin="8"
+                                      FontSize="22"
+                                      GridLinesVisibility="All"
+                                      AutoGenerateColumns="False"
+                                      RenderOptions.ClearTypeHint="Enabled"
+                                      SelectionUnit="FullRow"
+                                      TextOptions.TextFormattingMode="Display"
+                                      CanUserAddRows="False"
+                                      CanUserReorderColumns="False"
+                                      CanUserResizeColumns="False"
+                                      CanUserResizeRows="False"
+                                      EnableColumnVirtualization="True"
+                                      EnableRowVirtualization="True"
+                                      SelectedItem="{Binding MessagesDetailModelSelected, Mode=TwoWay}"
+                                      ItemsSource="{Binding NewMessagesDetailList}"
+                                      Style="{StaticResource MahApps.Styles.DataGrid.Azure}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                                        <i:InvokeCommandAction Command="{Binding SettingsViewModel.PreviewMouseRightButtonDownCmd}"
+                                                               CommandParameter="{Binding ElementName=dgNewMessages}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <DataGrid.Columns>
+                                    <DataGridCheckBoxColumn Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"
+                                                            EditingElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                                            ElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                                            Header="" />
+                                    <DataGridTextColumn Header="Ngày SX"
+                                                        FontSize="16"
+                                                        Binding="{Binding ManufacturingDate}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Thời gian SX"
+                                                        FontSize="16"
+                                                        Binding="{Binding ManufacturingTime}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Ca SX"
+                                                        FontSize="16"
+                                                        Binding="{Binding ManufacturingShift}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Số phiếu"
+                                                        FontSize="16"
+                                                        Binding="{Binding CouponCode}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Biển số"
+                                                        FontSize="16"
+                                                        Binding="{Binding LicensePlate}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Mã khách hàng"
+                                                        FontSize="16"
+                                                        Binding="{Binding CustomerCode}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Tên khách hàng"
+                                                        FontSize="16"
+                                                        Binding="{Binding CustomerName}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Loại xi măng"
+                                                        FontSize="16"
+                                                        Binding="{Binding CementType}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Số tấn"
+                                                        FontSize="16"
+                                                        Binding="{Binding WeightTon}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Số bao"
+                                                        FontSize="16"
+                                                        Binding="{Binding NumberBags}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Số bao đã in"
+                                                        FontSize="16"
+                                                        Binding="{Binding NumberBagsPrinted}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Loại vỏ bao"
+                                                        FontSize="16"
+                                                        Binding="{Binding BagCoverType}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Thương hiệu"
+                                                        FontSize="16"
+                                                        Binding="{Binding Brand}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Kiểu xếp hàng"
+                                                        FontSize="16"
+                                                        Binding="{Binding ArrangeType}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Line"
+                                                        FontSize="16"
+                                                        Binding="{Binding Line}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False"
+                                                        mah:TextBoxHelper.Watermark="trống" />
+                                    <DataGridTextColumn Header="Máy in"
+                                                        FontSize="16"
+                                                        Binding="{Binding Printer}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False"
+                                                        mah:TextBoxHelper.Watermark="trống" />
+                                    <DataGridTextColumn Header="Máng"
+                                                        FontSize="16"
+                                                        Binding="{Binding Trough}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False"
+                                                        mah:TextBoxHelper.Watermark="trống" />
+                                    <DataGridTextColumn Header="Trạng thái bản tin"
+                                                        FontSize="16"
+                                                        Binding="{Binding MessageState}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </TabItem>
+                        <Popup x:Name="popupDeleteMsgNew"
+                               Placement="MousePoint"
+                               StaysOpen="False"
+                               VerticalOffset="-10">
+                            <Border BorderBrush="Gray"
+                                    BorderThickness="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Button x:Name="btnDelete"
+                                            Grid.Row="0"
+                                            Content="Xóa mục đã chọn"
+                                            Margin="2"
+                                            FontSize="16"
+                                            Width="200"
+                                            Height="30"
+                                            FontWeight="SemiBold"
+                                            Background="#E74C3C"
+                                            Foreground="White"
+                                            Style="{StaticResource MahApps.Styles.Button.MetroWindow.Base}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding DeleteMsgNewCmd}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                    <Button x:Name="btnEditMsg"
+                                            Grid.Row="1"
+                                            Content="Sửa bản tin"
+                                            Margin="2"
+                                            FontSize="16"
+                                            Width="200"
+                                            Height="30"
+                                            FontWeight="SemiBold"
+                                            Background="#2196F3"
+                                            Foreground="White"
+                                            PreviewMouseLeftButtonDown="btnEditMsg_PreviewMouseLeftButtonDown"
+                                            Style="{StaticResource MahApps.Styles.Button.MetroWindow.Base}">
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </Popup>
+                        <TabItem Header="Bản tin đang in">
+                            <DataGrid Name="dgPrintingMessages"
+                                      Margin="8"
+                                      FontSize="22"
+                                      GridLinesVisibility="All"
+                                      AutoGenerateColumns="False"
+                                      RenderOptions.ClearTypeHint="Enabled"
+                                      SelectionUnit="FullRow"
+                                      TextOptions.TextFormattingMode="Display"
+                                      CanUserAddRows="False"
+                                      CanUserReorderColumns="False"
+                                      CanUserResizeColumns="False"
+                                      CanUserResizeRows="False"
+                                      EnableColumnVirtualization="True"
+                                      EnableRowVirtualization="True"
+                                      ItemsSource="{Binding PrintingMessagesDetailList}"
+                                      Style="{StaticResource MahApps.Styles.DataGrid.Azure}">
+                                <DataGrid.Columns>
+                                    <!--<DataGridCheckBoxColumn Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"
+                                                            EditingElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                                            ElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                                            Header="" />-->
+                                    <DataGridTextColumn Header="Ngày SX"
+                                                        FontSize="16"
+                                                        Binding="{Binding ManufacturingDate}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Thời gian SX"
+                                                        FontSize="16"
+                                                        Binding="{Binding ManufacturingTime}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Ca SX"
+                                                        FontSize="16"
+                                                        Binding="{Binding ManufacturingShift}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Số phiếu"
+                                                        FontSize="16"
+                                                        Binding="{Binding CouponCode}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Biển số"
+                                                        FontSize="16"
+                                                        Binding="{Binding LicensePlate}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Mã khách hàng"
+                                                        FontSize="16"
+                                                        Binding="{Binding CustomerCode}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Tên khách hàng"
+                                                        FontSize="16"
+                                                        Binding="{Binding CustomerName}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Loại xi măng"
+                                                        FontSize="16"
+                                                        Binding="{Binding CementType}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Số tấn"
+                                                        FontSize="16"
+                                                        Binding="{Binding WeightTon}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Số bao"
+                                                        FontSize="16"
+                                                        Binding="{Binding NumberBags}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Số bao đã in"
+                                                        FontSize="16"
+                                                        Binding="{Binding NumberBagsPrinted}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Loại vỏ bao"
+                                                        FontSize="16"
+                                                        Binding="{Binding BagCoverType}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Thương hiệu"
+                                                        FontSize="16"
+                                                        Binding="{Binding Brand}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Kiểu xếp hàng"
+                                                        FontSize="16"
+                                                        Binding="{Binding ArrangeType}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                    <DataGridTextColumn Header="Line"
+                                                        FontSize="16"
+                                                        Binding="{Binding Line}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False"
+                                                        mah:TextBoxHelper.Watermark="trống" />
+                                    <DataGridTextColumn Header="Máy in"
+                                                        FontSize="16"
+                                                        Binding="{Binding Printer}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False"
+                                                        mah:TextBoxHelper.Watermark="trống" />
+                                    <DataGridTextColumn Header="Máng"
+                                                        FontSize="16"
+                                                        Binding="{Binding Trough}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False"
+                                                        mah:TextBoxHelper.Watermark="trống" />
+                                    <DataGridTextColumn Header="Trạng thái bản tin"
+                                                        FontSize="16"
+                                                        Binding="{Binding MessageState}"
+                                                        IsReadOnly="True"
+                                                        mah:TextBoxHelper.ClearTextButton="False" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </TabItem>
+                        <TabItem Header="Nhật ký">
+                            <Border BorderThickness="0,1"
+                                    BorderBrush="Gray"
+                                    Margin="5">
+                                <RichTextBox x:Name="rtbLog"
+                                             ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                             IsUndoEnabled="False"
+                                             IsReadOnly="True"
+                                             BorderThickness="2"
+                                             IsDocumentEnabled="True"
+                                             Background="Transparent">
+                                    <FlowDocument Name="flowLog"
+                                                  PageWidth="{Binding ElementName=rtbLog, Path=ActualWidth}"
+                                                  LineHeight="20"
+                                                  LineStackingStrategy="MaxHeight">
+                                        <Paragraph Name="paraLog"
+                                                   Padding="5"
+                                                   Margin="5 0 0 0"
+                                                   FontSize="16"
+                                                   FontWeight="Normal"
+                                                   Foreground="Black"
+                                                   FontStyle="Italic">
+                                        </Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </Border>
+                        </TabItem>
+                    </mah:MetroTabControl>
+                </Border>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <StatusBar Margin="5 0 0 0"
+                       FontSize="16">
+                <StatusBarItem Content="{Binding AppVersion}"
+                               ContentStringFormat="{}Phần mềm cổng v{0}" />
+                <Separator Style="{DynamicResource MahApps.Styles.Separator.StatusBar}" />
+                <StatusBarItem Content="{Binding ConnectionState, Mode=OneWay }" />
+                <Separator Style="{DynamicResource MahApps.Styles.Separator.StatusBar}" />
+                <StatusBarItem Background="Gray" Content="ENTER - chuyển ô, PHÍM MŨI TÊN - chọn"/>
+                <Separator Style="{DynamicResource MahApps.Styles.Separator.StatusBar}" />
+            </StatusBar>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>

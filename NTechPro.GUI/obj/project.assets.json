@@ -1,0 +1,182 @@
+{
+  "version": 3,
+  "targets": {
+    "net6.0-windows7.0": {
+      "NTech.Base.Commons/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/NTech.Base.Commons.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/NTech.Base.Commons.dll": {}
+        }
+      },
+      "NTech.Base.Resources/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/NTech.Base.Resources.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/NTech.Base.Resources.dll": {}
+        }
+      },
+      "NTech.Base.Wpf/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/NTech.Base.Wpf.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/NTech.Base.Wpf.dll": {}
+        }
+      },
+      "NTech.Base.Wpf.Controls.ObjectEditor/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "NTech.Base.Commons": "1.0.0",
+          "NTech.Base.Wpf": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/NTech.Base.Wpf.Controls.ObjectEditor.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/NTech.Base.Wpf.Controls.ObjectEditor.dll": {}
+        }
+      },
+      "NTech.Wpf.Control.RefractiveZoom/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/NTech.Wpf.Control.RefractiveZoom.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/NTech.Wpf.Control.RefractiveZoom.dll": {}
+        }
+      },
+      "NTech.Wpf.Modules.Common.Editor/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "NTech.Base.Commons": "1.0.0",
+          "NTech.Base.Resources": "1.0.0",
+          "NTech.Base.Wpf.Controls.ObjectEditor": "1.0.0",
+          "NTech.Wpf.Control.RefractiveZoom": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/NTech.Wpf.Modules.Common.Editor.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/NTech.Wpf.Modules.Common.Editor.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "NTech.Base.Commons/1.0.0": {
+      "type": "project",
+      "path": "../NTech.Base.Commons/NTech.Base.Commons.csproj",
+      "msbuildProject": "../NTech.Base.Commons/NTech.Base.Commons.csproj"
+    },
+    "NTech.Base.Resources/1.0.0": {
+      "type": "project",
+      "path": "../NTech.Base.Resources/NTech.Base.Resources.csproj",
+      "msbuildProject": "../NTech.Base.Resources/NTech.Base.Resources.csproj"
+    },
+    "NTech.Base.Wpf/1.0.0": {
+      "type": "project",
+      "path": "../NTech.Base.Wpf/NTech.Base.Wpf.csproj",
+      "msbuildProject": "../NTech.Base.Wpf/NTech.Base.Wpf.csproj"
+    },
+    "NTech.Base.Wpf.Controls.ObjectEditor/1.0.0": {
+      "type": "project",
+      "path": "../NTech.Base.Wpf.Controls.ObjectEditor/NTech.Base.Wpf.Controls.ObjectEditor.csproj",
+      "msbuildProject": "../NTech.Base.Wpf.Controls.ObjectEditor/NTech.Base.Wpf.Controls.ObjectEditor.csproj"
+    },
+    "NTech.Wpf.Control.RefractiveZoom/1.0.0": {
+      "type": "project",
+      "path": "../NTech.Base.Wpf.Controls.RefractiveZoom/NTech.Wpf.Control.RefractiveZoom.csproj",
+      "msbuildProject": "../NTech.Base.Wpf.Controls.RefractiveZoom/NTech.Wpf.Control.RefractiveZoom.csproj"
+    },
+    "NTech.Wpf.Modules.Common.Editor/1.0.0": {
+      "type": "project",
+      "path": "../NTech.Wpf.Modules.Common.Editor/NTech.Wpf.Modules.Common.Editor.csproj",
+      "msbuildProject": "../NTech.Wpf.Modules.Common.Editor/NTech.Wpf.Modules.Common.Editor.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net6.0-windows7.0": [
+      "NTech.Wpf.Modules.Common.Editor >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\NAMPC\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "D:\\ENTRY\\@NTECH\\NTECHBASE\\NTech.Base\\NTechPro.GUI\\NTechPro.GUI.csproj",
+      "projectName": "NTechPro.GUI",
+      "projectPath": "D:\\ENTRY\\@NTECH\\NTECHBASE\\NTech.Base\\NTechPro.GUI\\NTechPro.GUI.csproj",
+      "packagesPath": "C:\\Users\\NAMPC\\.nuget\\packages\\",
+      "outputPath": "D:\\ENTRY\\@NTECH\\NTECHBASE\\NTech.Base\\NTechPro.GUI\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\NAMPC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net6.0-windows"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
+          "projectReferences": {
+            "D:\\ENTRY\\@NTECH\\NTECHBASE\\NTech.Base\\NTech.Wpf.Modules.Common.Editor\\NTech.Wpf.Modules.Common.Editor.csproj": {
+              "projectPath": "D:\\ENTRY\\@NTECH\\NTECHBASE\\NTech.Base\\NTech.Wpf.Modules.Common.Editor\\NTech.Wpf.Modules.Common.Editor.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net6.0-windows7.0": {
+        "targetAlias": "net6.0-windows",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          },
+          "Microsoft.WindowsDesktop.App.WPF": {
+            "privateAssets": "none"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<IPPrinterList>
+	<IPAddressPrinterList>192.168.0.10</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.11</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.12</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.13</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.14</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.15</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.16</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.17</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.18</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.19</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.20</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.21</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.22</IPAddressPrinterList>
+	<IPAddressPrinterList>192.168.0.23</IPAddressPrinterList>
+</IPPrinterList>

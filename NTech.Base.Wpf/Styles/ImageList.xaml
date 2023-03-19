@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <BitmapImage x:Key="IMG_Linx_Printer_5900"
+                 UriSource="/NTech.Xm.Station;component/Assets/Images/linx_printer_5900_png.png" />
+    <BitmapImage x:Key="IMG_NTechInfo"
+                 UriSource="/NTech.Base.Wpf;component/Images/BannerNTech-large.jpg" />
+    <BitmapImage x:Key="IMG_arrow_down"
+                 UriSource="/NTech.Base.Wpf;component/Images/btn_arrow_down.png" />
+    <BitmapImage x:Key="IMG_Btn_ChartPre"
+                 UriSource="/NTech.Base.Wpf;component/Images/btn_chartpre2_n@3x.png" />
+    <BitmapImage x:Key="IMG_Btn_ChartNext"
+                 UriSource="/NTech.Base.Wpf;component/Images/btn_chartnext2_n@3x.png" />
+    <BitmapImage x:Key="IMG_IC_Time"
+                 UriSource="/NTech.Base.Wpf;component/Images/time_icon.png" />
+    <BitmapImage x:Key="IMG_IC_Search"
+                 UriSource="/NTech.Base.Wpf;component/Images/ic_search_l_n@3x.png" />
+    <!--<ImageSource x:Key="IMG_Linx_Printer_5900">/NTech.Xm.Station;component/Assets/Images/linx_printer_5900_png.png</ImageSource>-->
+</ResourceDictionary>

@@ -1,0 +1,309 @@
+﻿<UserControl x:Class="NTech.Wpf.Modules.Common.Editor.Views.RefractiveEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:NTech.Wpf.Modules.Common.Editor.Views"
+             xmlns:Controls="clr-namespace:NTech.Wpf.Control.RefractiveZoom;assembly=Koh.Wpf.Controls.RefractiveZoom"
+             xmlns:Conv="clr-namespace:NTech.Wpf.Modules.Common.Editor.Converters"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+    <UserControl.Resources>
+        <Conv:RefractiveCoordinateConverter x:Key="RefractiveCoordinateConverter" />
+    </UserControl.Resources>
+
+    <Grid Grid.Column="1"
+          x:Name="EditorPanel"
+          ClipToBounds="True"
+          PreviewMouseDown="EditorPanel_PreviewMouseDown"
+          PreviewMouseUp="EditorPanel_PreviewMouseUp"
+          PreviewMouseMove="EditorPanel_PreviewMouseMove"
+          PreviewMouseWheel="EditorPanel_PreviewMouseWheel">
+
+        <Controls:RefractiveZoomControl x:Name="zc"
+                                        ZoomControlMouseUpEvent="zc_ZoomControlMouseUpEvent">
+            <Grid x:Name="zcc">
+                <Image x:Name="img"
+                       Stretch="Uniform"
+                       RenderOptions.BitmapScalingMode="NearestNeighbor"
+                       Source="{Binding RefractiveSection.Image}" />
+            </Grid>
+        </Controls:RefractiveZoomControl>
+
+        <Canvas Background="{x:Null}"
+                x:Name="cv"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <Canvas.Width>
+                <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                              ConverterParameter="Canvas.Width">
+                    <Binding Path="ActualWidth"
+                             ElementName="zc" />
+                    <Binding Path="Zoom"
+                             ElementName="zc" />
+                </MultiBinding>
+            </Canvas.Width>
+            <Canvas.Height>
+                <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                              ConverterParameter="Canvas.Height">
+                    <Binding Path="ActualHeight"
+                             ElementName="zc" />
+                    <Binding Path="Zoom"
+                             ElementName="zc" />
+                </MultiBinding>
+            </Canvas.Height>
+
+            <Grid Width="14"
+                  Height="14"
+                  Background="Transparent"
+                  Margin="-7 -7 0 0"
+                  Visibility="{Binding RefractiveSection.MarkerHS.Visibility}">
+                <Path Data="M0,0 L0,0 1,1 M1,0 L1,0 0,1"
+                      Stroke="Red"
+                      StrokeThickness="2"
+                      Stretch="Fill"
+                      Fill="{x:Null}" />
+                <Canvas.Left>
+                    <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                                  ConverterParameter="Label.X">
+                        <Binding Path="TranslateX"
+                                 ElementName="zc" />
+                        <Binding Path="Zoom"
+                                 ElementName="zc" />
+                        <Binding Path="RefractiveSection.MarkerHS.LayoutBounds.X" />
+                    </MultiBinding>
+                </Canvas.Left>
+                <Canvas.Top>
+                    <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                                  ConverterParameter="Label.Y">
+                        <Binding Path="TranslateY"
+                                 ElementName="zc" />
+                        <Binding Path="Zoom"
+                                 ElementName="zc" />
+                        <Binding Path="RefractiveSection.MarkerHS.LayoutBounds.Y" />
+                    </MultiBinding>
+                </Canvas.Top>
+            </Grid>
+
+            <Grid Width="14"
+                  Height="14"
+                  Background="{x:Null}"
+                  Margin="-7 -7 0 0"
+                  Visibility="{Binding RefractiveSection.MarkerHE.Visibility}">
+                <Path Data="M0,0 L0,0 1,1 M1,0 L1,0 0,1"
+                      Stroke="Red"
+                      StrokeThickness="2"
+                      Stretch="Fill"
+                      Fill="{x:Null}"
+                      Panel.ZIndex="0"
+                      Margin="0" />
+                <Canvas.Left>
+                    <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                                  ConverterParameter="Label.X">
+                        <Binding Path="TranslateX"
+                                 ElementName="zc" />
+                        <Binding Path="Zoom"
+                                 ElementName="zc" />
+                        <Binding Path="RefractiveSection.MarkerHE.LayoutBounds.X" />
+                    </MultiBinding>
+                </Canvas.Left>
+                <Canvas.Top>
+                    <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                                  ConverterParameter="Label.Y">
+                        <Binding Path="TranslateY"
+                                 ElementName="zc" />
+                        <Binding Path="Zoom"
+                                 ElementName="zc" />
+                        <Binding Path="RefractiveSection.MarkerHE.LayoutBounds.Y" />
+                    </MultiBinding>
+                </Canvas.Top>
+            </Grid>
+
+            <Line Stroke="Yellow"
+                  StrokeThickness="1.5"
+                  Visibility="{Binding RefractiveSection.LineH.Visibility}">
+                <Line.Style>
+                    <Style TargetType="Line">
+                        <Setter Property="StrokeDashArray"
+                                Value="2, 2" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RefractiveSection.IsAddedHE}"
+                                         Value="True">
+                                <Setter Property="StrokeDashArray"
+                                        Value="{x:Null}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Line.Style>
+
+                <Line.X1>
+                    <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                                  ConverterParameter="Label.X">
+                        <Binding Path="TranslateX"
+                                 ElementName="zc" />
+                        <Binding Path="Zoom"
+                                 ElementName="zc" />
+                        <Binding Path="RefractiveSection.LineH.LayoutBounds.X" />
+                    </MultiBinding>
+                </Line.X1>
+                <Line.Y1>
+                    <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                                  ConverterParameter="Label.Y">
+                        <Binding Path="TranslateY"
+                                 ElementName="zc" />
+                        <Binding Path="Zoom"
+                                 ElementName="zc" />
+                        <Binding Path="RefractiveSection.LineH.LayoutBounds.Y" />
+                    </MultiBinding>
+                </Line.Y1>
+                <Line.X2>
+                    <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                                  ConverterParameter="Label.X">
+                        <Binding Path="TranslateX"
+                                 ElementName="zc" />
+                        <Binding Path="Zoom"
+                                 ElementName="zc" />
+                        <Binding Path="RefractiveSection.LineH.LayoutBounds.Width" />
+                    </MultiBinding>
+                </Line.X2>
+                <Line.Y2>
+                    <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                                  ConverterParameter="Label.Y">
+                        <Binding Path="TranslateY"
+                                 ElementName="zc" />
+                        <Binding Path="Zoom"
+                                 ElementName="zc" />
+                        <Binding Path="RefractiveSection.LineH.LayoutBounds.Height" />
+                    </MultiBinding>
+                </Line.Y2>
+            </Line>
+
+            <Grid Width="14"
+                  Height="14"
+                  Background="Transparent"
+                  Margin="-7 -7 0 0"
+                  Visibility="{Binding RefractiveSection.MarkerVS.Visibility}">
+                <Path Data="M0,0 L0,0 1,1 M1,0 L1,0 0,1"
+                      Stroke="Red"
+                      StrokeThickness="2"
+                      Stretch="Fill"
+                      Fill="{x:Null}" />
+                <Canvas.Left>
+                    <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                                  ConverterParameter="Label.X">
+                        <Binding Path="TranslateX"
+                                 ElementName="zc" />
+                        <Binding Path="Zoom"
+                                 ElementName="zc" />
+                        <Binding Path="RefractiveSection.MarkerVS.LayoutBounds.X" />
+                    </MultiBinding>
+                </Canvas.Left>
+                <Canvas.Top>
+                    <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                                  ConverterParameter="Label.Y">
+                        <Binding Path="TranslateY"
+                                 ElementName="zc" />
+                        <Binding Path="Zoom"
+                                 ElementName="zc" />
+                        <Binding Path="RefractiveSection.MarkerVS.LayoutBounds.Y" />
+                    </MultiBinding>
+                </Canvas.Top>
+            </Grid>
+
+            <Grid Width="14"
+                  Height="14"
+                  Background="{x:Null}"
+                  Margin="-7 -7 0 0"
+                  Visibility="{Binding RefractiveSection.MarkerVE.Visibility}">
+                <Path Data="M0,0 L0,0 1,1 M1,0 L1,0 0,1"
+                      Stroke="Red"
+                      StrokeThickness="2"
+                      Stretch="Fill"
+                      Fill="{x:Null}"
+                      Panel.ZIndex="0"
+                      Margin="0" />
+                <Canvas.Left>
+                    <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                                  ConverterParameter="Label.X">
+                        <Binding Path="TranslateX"
+                                 ElementName="zc" />
+                        <Binding Path="Zoom"
+                                 ElementName="zc" />
+                        <Binding Path="RefractiveSection.MarkerVE.LayoutBounds.X" />
+                    </MultiBinding>
+                </Canvas.Left>
+                <Canvas.Top>
+                    <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                                  ConverterParameter="Label.Y">
+                        <Binding Path="TranslateY"
+                                 ElementName="zc" />
+                        <Binding Path="Zoom"
+                                 ElementName="zc" />
+                        <Binding Path="RefractiveSection.MarkerVE.LayoutBounds.Y" />
+                    </MultiBinding>
+                </Canvas.Top>
+            </Grid>
+
+            <Line Stroke="Yellow"
+                  StrokeThickness="2"
+                  Visibility="{Binding RefractiveSection.LineV.Visibility}">
+                <Line.Style>
+                    <Style TargetType="Line">
+                        <Setter Property="StrokeDashArray"
+                                Value="2, 2" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RefractiveSection.IsAddedVE}"
+                                         Value="True">
+                                <Setter Property="StrokeDashArray"
+                                        Value="{x:Null}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Line.Style>
+                <Line.X1>
+                    <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                                  ConverterParameter="Label.X">
+                        <Binding Path="TranslateX"
+                                 ElementName="zc" />
+                        <Binding Path="Zoom"
+                                 ElementName="zc" />
+                        <Binding Path="RefractiveSection.LineV.LayoutBounds.X" />
+                    </MultiBinding>
+                </Line.X1>
+                <Line.Y1>
+                    <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                                  ConverterParameter="Label.Y">
+                        <Binding Path="TranslateY"
+                                 ElementName="zc" />
+                        <Binding Path="Zoom"
+                                 ElementName="zc" />
+                        <Binding Path="RefractiveSection.LineV.LayoutBounds.Y" />
+                    </MultiBinding>
+                </Line.Y1>
+                <Line.X2>
+                    <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                                  ConverterParameter="Label.X">
+                        <Binding Path="TranslateX"
+                                 ElementName="zc" />
+                        <Binding Path="Zoom"
+                                 ElementName="zc" />
+                        <Binding Path="RefractiveSection.LineV.LayoutBounds.Width" />
+                    </MultiBinding>
+                </Line.X2>
+                <Line.Y2>
+                    <MultiBinding Converter="{StaticResource RefractiveCoordinateConverter}"
+                                  ConverterParameter="Label.Y">
+                        <Binding Path="TranslateY"
+                                 ElementName="zc" />
+                        <Binding Path="Zoom"
+                                 ElementName="zc" />
+                        <Binding Path="RefractiveSection.LineV.LayoutBounds.Height" />
+                    </MultiBinding>
+                </Line.Y2>
+            </Line>
+
+        </Canvas>
+
+    </Grid>
+</UserControl>

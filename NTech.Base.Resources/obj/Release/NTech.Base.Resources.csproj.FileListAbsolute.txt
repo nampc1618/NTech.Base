@@ -1,0 +1,6 @@
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Resources\bin\Release\NTech.Base.Resources.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Resources\bin\Release\NTech.Base.Resources.pdb
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Resources\obj\Release\NTech.Base.Resources.csproj.AssemblyReference.cache
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Resources\obj\Release\NTech.Base.Resources.csproj.CoreCompileInputs.cache
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Resources\obj\Release\NTech.Base.Resources.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Resources\obj\Release\NTech.Base.Resources.pdb

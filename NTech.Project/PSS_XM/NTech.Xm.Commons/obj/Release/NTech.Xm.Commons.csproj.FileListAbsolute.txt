@@ -1,0 +1,13 @@
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Commons\bin\Release\NTech.Xm.Commons.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Commons\bin\Release\NTech.Xm.Commons.pdb
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Commons\bin\Release\NLog.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Commons\bin\Release\NTech.Base.Commons.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Commons\bin\Release\nunit.framework.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Commons\bin\Release\NTech.Base.Commons.pdb
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Commons\bin\Release\NLog.xml
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Commons\bin\Release\nunit.framework.xml
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Commons\obj\Release\NTech.Xm.Commons.csproj.AssemblyReference.cache
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Commons\obj\Release\NTech.Xm.Commons.csproj.CoreCompileInputs.cache
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Commons\obj\Release\NTech.Xm.Commons.csproj.CopyComplete
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Commons\obj\Release\NTech.Xm.Commons.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Xm.Commons\obj\Release\NTech.Xm.Commons.pdb

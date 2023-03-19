@@ -1,0 +1,14 @@
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Wpf.Controls.ObjectEditor\obj\x64\Debug\NTech.Base.Wpf.Controls.ObjectEditor.csproj.AssemblyReference.cache
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Wpf.Controls.ObjectEditor\obj\x64\Debug\NTech.Base.Wpf.Controls.ObjectEditor.csproj.CoreCompileInputs.cache
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Wpf.Controls.ObjectEditor\obj\x64\Debug\Koh.Wpf.Controls.ObjectEditor.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Wpf.Controls.ObjectEditor\obj\x64\Debug\Koh.Wpf.Controls.ObjectEditor.pdb
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Wpf.Controls.ObjectEditor\bin\x64\Debug\Koh.Wpf.Controls.ObjectEditor.dll.config
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Wpf.Controls.ObjectEditor\bin\x64\Debug\Koh.Wpf.Controls.ObjectEditor.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Wpf.Controls.ObjectEditor\bin\x64\Debug\Koh.Wpf.Controls.ObjectEditor.pdb
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Wpf.Controls.ObjectEditor\bin\x64\Debug\NTech.Base.Commons.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Wpf.Controls.ObjectEditor\bin\x64\Debug\NTech.Base.Wpf.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Wpf.Controls.ObjectEditor\bin\x64\Debug\System.Runtime.CompilerServices.Unsafe.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Wpf.Controls.ObjectEditor\bin\x64\Debug\System.ValueTuple.dll
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Wpf.Controls.ObjectEditor\bin\x64\Debug\NTech.Base.Commons.pdb
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Wpf.Controls.ObjectEditor\bin\x64\Debug\NTech.Base.Wpf.pdb
+D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Wpf.Controls.ObjectEditor\obj\x64\Debug\NTech.Base.Wpf.Controls.ObjectEditor.csproj.CopyComplete

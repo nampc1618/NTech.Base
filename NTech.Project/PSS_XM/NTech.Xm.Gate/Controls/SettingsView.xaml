@@ -1,0 +1,464 @@
+﻿<UserControl x:Class="NTech.Xm.Gate.Controls.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:local="clr-namespace:NTech.Xm.Gate.Controls"
+             xmlns:converter="clr-namespace:NTech.Xm.Gate.Converters"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d"
+             xmlns:vm="clr-namespace:NTech.Xm.Gate.ViewModels"
+             d:DataContext="{d:DesignInstance vm:SettingsViewModel}"
+             DataContext="{Binding SettingsViewModel}"
+             d:DesignHeight="450"
+             d:DesignWidth="750"
+             Visibility="{Binding VisibilitySettingsView}">
+    <UserControl.Resources>
+        <converter:SelectedCustomersTableToVisibilityConverter x:Key="SelectedCustomersTableToVisibilityConverter"/>
+        <converter:SelectedArrangeProductsTableToVisibilityConverter x:Key="SelectedArrangeProductsTableToVisibilityConverter" />
+        <converter:SelectedBagCoverTableToVisibilityConverter x:Key="SelectedBagCoverTableToVisibilityConverter" />
+        <converter:SelectedCementBrandTableToVisibilityConverter x:Key="SelectedCementBrandTableToVisibilityConverter" />
+        <converter:SelectedProductsTableToVisibilityConverter x:Key="SelectedProductsTableToVisibilityConverter" />
+        <converter:SelectedRolesTableToVisibilityConverter x:Key="SelectedRolesTableToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="7.5*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Border Grid.Row="0"
+                    Height="48"
+                    Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
+                    BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+                    BorderThickness="0 0 0 3"
+                    DockPanel.Dock="Top">
+                <DockPanel LastChildFill="True">
+                    <mah:TransitioningContentControl VerticalAlignment="Center"
+                                                     Content="{Binding ElementName=NavigationListBox, Path=SelectedItem.Caption}"
+                                                     FontSize="30"
+                                                     FontWeight="DemiBold"
+                                                     Foreground="{DynamicResource MahApps.Brushes.Highlight}"
+                                                     RestartTransitionOnContentChange="True" />
+                    <TextBox MinWidth="400"
+                             Margin="5"
+                             mah:TextBoxHelper.Watermark="Tìm kiếm"
+                             mah:TextBoxHelper.ClearTextButton="True"
+                             DockPanel.Dock="Right"
+                             Style="{DynamicResource NTech.Base.Wpf.Styles.TextBox.Search}"
+                             FontSize="20"
+                             VerticalContentAlignment="Center"
+                             HorizontalContentAlignment="Left" />
+                </DockPanel>
+            </Border>
+        </Grid>
+        <DockPanel Grid.Row="1"
+                   Margin="5"
+                   LastChildFill="True">
+            <TextBlock Text="Chọn"
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center" />
+            <ComboBox Margin="10 0 20 0"
+                      Height="35"
+                      Name="cbbDbTableList"
+                      FontSize="20"
+                      FontWeight="SemiBold"
+                      ItemsSource="{Binding DbTableList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding DBTableSelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding SelectionChangedCmd}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+        </DockPanel>
+        <!--Danh sách khách hàng-->
+        <Grid Grid.Row="2">
+            <DataGrid x:Name="dgCustomers"
+                      Margin="5"
+                      FontSize="22"
+                      AutoGenerateColumns="False"
+                      RenderOptions.ClearTypeHint="Enabled"
+                      SelectionUnit="FullRow"
+                      TextOptions.TextFormattingMode="Display"
+                      CanUserAddRows="{Binding IsCreateNew, Mode=OneWay}"
+                      CanUserReorderColumns="False"
+                      CanUserResizeColumns="False"
+                      CanUserResizeRows="False"
+                      EnableColumnVirtualization="True"
+                      EnableRowVirtualization="True"
+                      ItemsSource="{Binding CustomerModelList,Mode=OneWay}"
+                      SelectedItem="{Binding CustomerModel, Mode=TwoWay}"
+                      Style="{StaticResource MahApps.Styles.DataGrid.Azure}"
+                      Visibility="{Binding DB_TABLE_SELECTED, Mode=OneWay, Converter={StaticResource SelectedCustomersTableToVisibilityConverter}}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                        <i:InvokeCommandAction Command="{Binding PreviewMouseRightButtonDownCmd}"
+                                               CommandParameter="{Binding ElementName=dgCustomers}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"
+                                            EditingElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                            ElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                            Header="" />
+                    <DataGridTextColumn Header="Mã Khách Hàng"
+                                        Binding="{Binding CustomerCode}"
+                                        IsReadOnly="False"
+                                        mah:TextBoxHelper.ClearTextButton="True"
+                                        FontSize="22"
+                                        MinWidth="250" />
+                    <DataGridTextColumn Header="Tên Khách Hàng"
+                                        Binding="{Binding CustomerName}"
+                                        IsReadOnly="False"
+                                        mah:TextBoxHelper.ClearTextButton="True"
+                                        FontSize="22"
+                                        MinWidth="550" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <!--Cách xếp hàng-->
+        <Grid Grid.Row="2">
+            <DataGrid x:Name="dgArrangeProducts"
+                      Margin="5"
+                      FontSize="22"
+                      AutoGenerateColumns="False"
+                      RenderOptions.ClearTypeHint="Enabled"
+                      SelectionUnit="FullRow"
+                      TextOptions.TextFormattingMode="Display"
+                      CanUserAddRows="{Binding IsCreateNew, Mode=OneWay}"
+                      CanUserReorderColumns="False"
+                      CanUserResizeColumns="False"
+                      CanUserResizeRows="False"
+                      EnableColumnVirtualization="True"
+                      EnableRowVirtualization="True"
+                      ItemsSource="{Binding ArrangeProductsModelList,Mode=OneWay}"
+                      SelectedItem="{Binding ArrangeProductsModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Style="{StaticResource MahApps.Styles.DataGrid.Azure}"
+                      Visibility="{Binding DB_TABLE_SELECTED, Mode=OneWay, Converter={StaticResource SelectedArrangeProductsTableToVisibilityConverter}}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                        <i:InvokeCommandAction Command="{Binding PreviewMouseRightButtonDownCmd}"
+                                               CommandParameter="{Binding ElementName=dgArrangeProducts}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"
+                                            EditingElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                            ElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                            Header="" />
+                    <DataGridTextColumn Header="Id"
+                                        Binding="{Binding Id}"
+                                        IsReadOnly="False"
+                                        mah:TextBoxHelper.ClearTextButton="True"
+                                        FontSize="22"
+                                        MinWidth="250" />
+                    <DataGridTextColumn Header="Kiểu xếp hàng"
+                                        Binding="{Binding ArrangeType}"
+                                        IsReadOnly="False"
+                                        mah:TextBoxHelper.ClearTextButton="True"
+                                        FontSize="22"
+                                        MinWidth="450" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <!--Loại vỏ bao-->
+        <Grid Grid.Row="2">
+            <DataGrid x:Name="dgBagCover"
+                      Margin="5"
+                      FontSize="22"
+                      AutoGenerateColumns="False"
+                      RenderOptions.ClearTypeHint="Enabled"
+                      SelectionUnit="FullRow"
+                      TextOptions.TextFormattingMode="Display"
+                      CanUserAddRows="{Binding IsCreateNew, Mode=OneWay}"
+                      CanUserReorderColumns="False"
+                      CanUserResizeColumns="False"
+                      CanUserResizeRows="False"
+                      EnableColumnVirtualization="True"
+                      EnableRowVirtualization="True"
+                      ItemsSource="{Binding BagCoverModelList,Mode=OneWay}"
+                      SelectedItem="{Binding BagCoverModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Style="{StaticResource MahApps.Styles.DataGrid.Azure}"
+                      Visibility="{Binding DB_TABLE_SELECTED, Mode=OneWay, Converter={StaticResource SelectedBagCoverTableToVisibilityConverter}}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                        <i:InvokeCommandAction Command="{Binding PreviewMouseRightButtonDownCmd}"
+                                               CommandParameter="{Binding ElementName=dgBagCover}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"
+                                            EditingElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                            ElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                            Header="" />
+                    <DataGridTextColumn Header="Id"
+                                        Binding="{Binding Id}"
+                                        IsReadOnly="False"
+                                        mah:TextBoxHelper.ClearTextButton="True"
+                                        FontSize="22"
+                                        MinWidth="250" />
+                    <DataGridTextColumn Header="Loại vỏ bao"
+                                        Binding="{Binding BagCoverType}"
+                                        IsReadOnly="False"
+                                        mah:TextBoxHelper.ClearTextButton="True"
+                                        FontSize="22"
+                                        MinWidth="450" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <!--Thương hiệu xi măng-->
+        <Grid Grid.Row="2">
+            <DataGrid x:Name="dgCementBrand"
+                      Margin="5"
+                      FontSize="22"
+                      AutoGenerateColumns="False"
+                      RenderOptions.ClearTypeHint="Enabled"
+                      SelectionUnit="FullRow"
+                      TextOptions.TextFormattingMode="Display"
+                      CanUserAddRows="{Binding IsCreateNew, Mode=OneWay}"
+                      CanUserReorderColumns="False"
+                      CanUserResizeColumns="False"
+                      CanUserResizeRows="False"
+                      EnableColumnVirtualization="True"
+                      EnableRowVirtualization="True"
+                      ItemsSource="{Binding CementBrandModelList,Mode=OneWay}"
+                      SelectedItem="{Binding CementBrandModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Style="{StaticResource MahApps.Styles.DataGrid.Azure}"
+                      Visibility="{Binding DB_TABLE_SELECTED, Mode=OneWay, Converter={StaticResource SelectedCementBrandTableToVisibilityConverter}}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                        <i:InvokeCommandAction Command="{Binding PreviewMouseRightButtonDownCmd}"
+                                               CommandParameter="{Binding ElementName=dgCementBrand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"
+                                            EditingElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                            ElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                            Header="" />
+                    <DataGridTextColumn Header="Id"
+                                        Binding="{Binding Id}"
+                                        IsReadOnly="False"
+                                        mah:TextBoxHelper.ClearTextButton="True"
+                                        FontSize="22"
+                                        MinWidth="250" />
+                    <DataGridTextColumn Header="Thương hiệu"
+                                        Binding="{Binding Brand}"
+                                        IsReadOnly="False"
+                                        mah:TextBoxHelper.ClearTextButton="True"
+                                        FontSize="22"
+                                        MinWidth="450" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <!--Danh sách sản phẩm-->
+        <Grid Grid.Row="2">
+            <DataGrid x:Name="dgProducts"
+                      Margin="5"
+                      FontSize="22"
+                      AutoGenerateColumns="False"
+                      RenderOptions.ClearTypeHint="Enabled"
+                      SelectionUnit="FullRow"
+                      TextOptions.TextFormattingMode="Display"
+                      CanUserAddRows="{Binding IsCreateNew, Mode=OneWay}"
+                      CanUserReorderColumns="False"
+                      CanUserResizeColumns="False"
+                      CanUserResizeRows="False"
+                      EnableColumnVirtualization="True"
+                      EnableRowVirtualization="True"
+                      ItemsSource="{Binding ProductsModelList,Mode=OneWay}"
+                      SelectedItem="{Binding ProductsModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Style="{StaticResource MahApps.Styles.DataGrid.Azure}"
+                      Visibility="{Binding DB_TABLE_SELECTED, Mode=OneWay, Converter={StaticResource SelectedProductsTableToVisibilityConverter}}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                        <i:InvokeCommandAction Command="{Binding PreviewMouseRightButtonDownCmd}"
+                                               CommandParameter="{Binding ElementName=dgProducts}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"
+                                            EditingElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                            ElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                            Header="" />
+                    <DataGridTextColumn Header="Id"
+                                        Binding="{Binding Id}"
+                                        IsReadOnly="False"
+                                        mah:TextBoxHelper.ClearTextButton="True"
+                                        FontSize="22"
+                                        MinWidth="150" />
+                    <DataGridTextColumn Header="Mã sản phẩm"
+                                        Binding="{Binding ProductCode}"
+                                        IsReadOnly="False"
+                                        mah:TextBoxHelper.ClearTextButton="True"
+                                        FontSize="22"
+                                        MinWidth="350" />
+                    <DataGridTextColumn Header="Tên sản phẩm"
+                                        Binding="{Binding ProductName}"
+                                        IsReadOnly="False"
+                                        mah:TextBoxHelper.ClearTextButton="True"
+                                        FontSize="22"
+                                        MinWidth="350" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <!--Quản trị-->
+        <Grid Grid.Row="2">
+            <DataGrid x:Name="dgRoles"
+                      Margin="5"
+                      FontSize="22"
+                      AutoGenerateColumns="False"
+                      RenderOptions.ClearTypeHint="Enabled"
+                      SelectionUnit="FullRow"
+                      TextOptions.TextFormattingMode="Display"
+                      CanUserAddRows="False"
+                      CanUserReorderColumns="False"
+                      CanUserResizeColumns="False"
+                      CanUserResizeRows="False"
+                      EnableColumnVirtualization="True"
+                      EnableRowVirtualization="True"
+                      ItemsSource="{Binding RolesModelList,Mode=OneWay}"
+                      SelectedItem="{Binding RolesModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Style="{StaticResource MahApps.Styles.DataGrid.Azure}"
+                      Visibility="{Binding DB_TABLE_SELECTED, Mode=OneWay, Converter={StaticResource SelectedRolesTableToVisibilityConverter}}">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"
+                                            EditingElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                            ElementStyle="{DynamicResource MahApps.Styles.CheckBox.DataGrid.Win10}"
+                                            Header="" />
+                    <DataGridTextColumn Header="Id"
+                                        Binding="{Binding Id}"
+                                        IsReadOnly="True"
+                                        mah:TextBoxHelper.ClearTextButton="False"
+                                        FontSize="22"
+                                        MinWidth="150" />
+                    <DataGridTextColumn Header="Tên người dùng"
+                                        Binding="{Binding Username}"
+                                        IsReadOnly="True"
+                                        mah:TextBoxHelper.ClearTextButton="False"
+                                        FontSize="22"
+                                        MinWidth="350" />
+                    <DataGridTextColumn Header="Mật khẩu"
+                                        Binding="{Binding Passcode}"
+                                        IsReadOnly="False"
+                                        mah:TextBoxHelper.ClearTextButton="True"
+                                        FontSize="22"
+                                        MinWidth="350" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        
+        <Popup x:Name="popupOption"
+               Placement="MousePoint"
+               StaysOpen="False"
+               VerticalOffset="-10">
+            <Border BorderBrush="Gray"
+                    BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Button x:Name="btnCreateNew"
+                            Content="Tạo mới"
+                            Margin="2"
+                            FontSize="16"
+                            Width="200"
+                            Height="30"
+                            FontWeight="SemiBold"
+                            Background="#3498DB"
+                            Foreground="White"
+                            Command="{Binding CreateNewCmd}"
+                            Style="{StaticResource MahApps.Styles.Button.MetroWindow.Base}">
+                    </Button>
+                    <Button x:Name="btnDelete"
+                            Grid.Row="1"
+                            Content="Xóa mục đã chọn"
+                            Margin="2"
+                            FontSize="16"
+                            Width="200"
+                            Height="30"
+                            FontWeight="SemiBold"
+                            Background="#E74C3C"
+                            Foreground="White"
+                            Style="{StaticResource MahApps.Styles.Button.MetroWindow.Base}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding DeleteCmd}"
+                                                       CommandParameter="{Binding DB_TABLE_SELECTED}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Grid Grid.Row="3">
+            <StackPanel Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center">
+                <Button Content="Lưu thay đổi"
+                        Width="220"
+                        Height="60"
+                        Background="MidnightBlue"
+                        Style="{DynamicResource MahApps.Styles.Button}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding SaveChangedCmd}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <iconPacks:PackIconMaterial Width="20"
+                                                            Height="20"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Center"
+                                                            Foreground="Orange"
+                                                            Kind="Update" />
+                                <TextBlock Margin="10 0 0 0"
+                                           FontSize="20"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"
+                                           Foreground="White"
+                                           Text="{Binding}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+                <Button Content="Hủy"
+                        Width="160"
+                        Height="60"
+                        Margin="10 0 0 0"
+                        Background="MidnightBlue"
+                        Style="{DynamicResource MahApps.Styles.Button}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <iconPacks:PackIconMaterial Width="20"
+                                                            Height="20"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Center"
+                                                            Foreground="Crimson"
+                                                            Kind="Cancel" />
+                                <TextBlock Margin="10 0 0 0"
+                                           FontSize="20"
+                                           VerticalAlignment="Center"
+                                           Foreground="White"
+                                           Text="{Binding}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
