@@ -1,0 +1,243 @@
+﻿<Window x:Class="PLCCommunication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PLCCommunication"
+        xmlns:vm="clr-namespace:PLCCommunication"
+        xmlns:conv="clr-namespace:PLCCommunication.Converters"
+        d:DataContext="{d:DesignInstance vm:PLC}"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="520" Width="550
+        ">
+    <Window.Resources>
+        <conv:ConverterPlcConnectToString x:Key="ConverterPlcConnectToString"/>
+        <conv:ConverterPlcConnectToForeground x:Key="ConverterPlcConnectToForeground"/>
+        <conv:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Border BorderBrush="LightGray"
+                BorderThickness="1"
+                Margin="2"
+                IsEnabled="True">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="5*" />
+                    <RowDefinition Height="0.5*"/>
+                </Grid.RowDefinitions>
+                <Border BorderBrush="LightGray"
+                        BorderThickness="1"
+                        Margin="2">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding PLCLine}"
+                                   VerticalAlignment="Center"
+                                   FontSize="22"
+                                   FontWeight="Bold"
+                                   Margin="3 0 0 0" />
+                        <TextBlock Text="{Binding IP}"
+                                   Name="tbIP"
+                                   VerticalAlignment="Center"
+                                   Margin="10 0 0 0"
+                                   FontSize="18"
+                                   FontWeight="Bold" />
+                        <TextBlock Text="{Binding PLCConnected, Converter={StaticResource ConverterPlcConnectToString}}"
+                                   Name="tbStatusPLC"
+                                   Margin="20 0 0 0"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Foreground="{Binding PLCConnected, Converter={StaticResource ConverterPlcConnectToForeground}}" />
+                        <Button Margin="80 2 0 2"
+                                IsEnabled="{Binding PLCConnected, Converter={StaticResource InverseBooleanConverter}}"
+                                Content="Connect"
+                                Name="btnConnectPLC"
+                                Padding="2"
+                                Width="100"
+                                FontSize="18"
+                                FontWeight="Bold" 
+                                Click="btnConnectPLC_Click"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="1"
+                        Margin="2"
+                        BorderBrush="LightGray"
+                        BorderThickness="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0"
+                                BorderBrush="LightGray"
+                                BorderThickness="1">
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="2">
+                                <TextBlock Margin="20 0 0 0"
+                                           Text="Máy in 1"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           FontWeight="Bold" />
+                                <Label Margin="120 0 0 0"
+                                       Name="lbCountNumberPLC1"
+                                       VerticalContentAlignment="Center"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="Red"
+                                       Content="0000" />
+                                <Button Margin="150 2 0 2"
+                                        Name="btnReset1"
+                                        Content="Reset"
+                                        Width="100"
+                                        FontSize="18"
+                                        FontWeight="Bold" />
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Row="1"
+                                BorderBrush="LightGray"
+                                BorderThickness="1">
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="2">
+                                <TextBlock Margin="20 0 0 0"
+                                           Text="Máy in 2"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           FontWeight="Bold" />
+                                <Label Margin="120 0 0 0"
+                                       Name="lbCountNumberPLC2"
+                                       VerticalContentAlignment="Center"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="Red"
+                                       Content="0000" />
+                                <Button Margin="150 2 0 2"
+                                        Name="btnReset2"
+                                        Content="Reset"
+                                        Width="100"
+                                        FontSize="18"
+                                        FontWeight="Bold" />
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Row="2"
+                                BorderBrush="LightGray"
+                                BorderThickness="1">
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="2">
+                                <TextBlock Margin="20 0 0 0"
+                                           Text="Máy in 3"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           FontWeight="Bold" />
+                                <Label Margin="120 0 0 0"
+                                       Name="lbCountNumberPLC3"
+                                       VerticalContentAlignment="Center"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="Red"
+                                       Content="0000" />
+                                <Button Margin="150 2 0 2"
+                                        Name="btnReset3"
+                                        Content="Reset"
+                                        Width="100"
+                                        FontSize="18"
+                                        FontWeight="Bold" />
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Row="3"
+                                BorderBrush="LightGray"
+                                BorderThickness="1">
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="2">
+                                <TextBlock Margin="20 0 0 0"
+                                           Text="Máy in 4"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           FontWeight="Bold" />
+                                <Label Margin="120 0 0 0"
+                                       Name="lbCountNumberPLC4"
+                                       VerticalContentAlignment="Center"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="Red"
+                                       Content="0000" />
+                                <Button Margin="150 2 0 2"
+                                        Name="btnReset4"
+                                        Content="Reset"
+                                        Width="100"
+                                        FontSize="18"
+                                        FontWeight="Bold" />
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Row="4"
+                                BorderBrush="LightGray"
+                                BorderThickness="1">
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="2">
+                                <TextBlock Margin="20 0 0 0"
+                                           Text="Máy in 5"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           FontWeight="Bold" />
+                                <Label Margin="120 0 0 0"
+                                       Name="lbCountNumberPLC5"
+                                       VerticalContentAlignment="Center"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="Red"
+                                       Content="0000" />
+                                <Button Margin="150 2 0 2"
+                                        Name="btnReset5"
+                                        Content="Reset"
+                                        Width="100"
+                                        FontSize="18"
+                                        FontWeight="Bold" />
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Row="5"
+                                BorderBrush="LightGray"
+                                BorderThickness="1">
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="2">
+                                <TextBlock Margin="20 0 0 0"
+                                           Text="Máy in 6"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           FontWeight="Bold" />
+                                <Label Margin="120 0 0 0"
+                                       Name="lbCountNumberPLC6"
+                                       VerticalContentAlignment="Center"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="Red"
+                                       Content="0000" />
+                                <Button Margin="150 2 0 2"
+                                        Name="btnReset6"
+                                        Content="Reset"
+                                        Width="100"
+                                        FontSize="18"
+                                        FontWeight="Bold" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="2"
+                        BorderBrush="LightGray"
+                        BorderThickness="1"
+                        Margin="2">
+                    <TextBlock Text="{Binding StatusServer}"
+                               Name="tbStatusServer"
+                               Foreground="ForestGreen"
+                               VerticalAlignment="Center"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               FontStyle="Italic"
+                               Margin="10 0 0 0"/>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
