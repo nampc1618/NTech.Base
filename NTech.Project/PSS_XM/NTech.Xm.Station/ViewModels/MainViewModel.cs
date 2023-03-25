@@ -39,6 +39,7 @@ namespace NTech.Xm.Station.ViewModels
     {
         private readonly Dispatcher _dispatcher;
         private NClientSocket _nClientSocket;
+        private NClientSocket _nClientSocketLocalHost;
         private TaskManagerDB _taskManagerDB;
         private const string DBName = "XmDb";
         private string _connectionState = string.Empty;
@@ -46,9 +47,10 @@ namespace NTech.Xm.Station.ViewModels
         private static object _objLock = new object();
 
         private readonly bool dataReceiveIsUTF8 = true;
-        private const string IP = "192.168.0.1";
-        //private const string IP = "127.0.0.1";
+        private const string GatePCIP = "192.168.0.1";
+        private const string LocalHostIP = "127.0.0.1";
         private const int PORT = 9000;
+        private const int LOCALHOST_PORT = 8500;
         private NServerSocket _nServerSocket;
 
         //Thread detect day change
@@ -57,10 +59,10 @@ namespace NTech.Xm.Station.ViewModels
         //Timer detect day change
         //DispatcherTimer _disTimerDetectDayChange;
 
-#if !LINE2
+#if LINE2
         private NClientSocket _nClientSocketLine2;
 #endif
-#if LINE3
+#if !LINE3
         private NClientSocket _nClientSocketLine3;
 #endif
 
@@ -121,21 +123,26 @@ namespace NTech.Xm.Station.ViewModels
 
             this._taskManagerDB = new TaskManagerDB();
 
-            this._nClientSocket = new NClientSocket(IP, PORT);
+            this._nClientSocket = new NClientSocket(GatePCIP, PORT);
             this._nClientSocket.ConnectionEventCallback += _nClientSocket_ConnectionEventCallback;
             this._nClientSocket.ClientErrorEventCallback += _nClientSocket_ClientErrorEventCallback;
             this._nClientSocket.ClientConnect(dataReceiveIsUTF8);
+
+            _nClientSocketLocalHost = new NClientSocket(LocalHostIP, LOCALHOST_PORT);
+            _nClientSocketLocalHost.ConnectionEventCallback += ConnectionCallBack_LocalHost;
+            _nClientSocketLocalHost.ClientErrorEventCallback += ErrorCallBack_LocalHost;
+            _nClientSocketLocalHost.ClientConnect(dataReceiveIsUTF8);
 
             this._nServerSocket = new NServerSocket();
             this._nServerSocket.ConnectionEventCallback += _nServerSocket_ConnectionEventCallback;
             this._nServerSocket.ServerErrorEventCallback += _nServerSocket_ServerErrorEventCallback;
             this._nServerSocket.StartListening(PORT);
 
-#if !LINE2
+#if LINE2
             _nClientSocketLine2 = new NClientSocket("192.168.0.3", PORT);
             _nClientSocketLine2.ClientConnect();
 #endif
-#if LINE3
+#if !LINE3
             _nClientSocketLine3 = new NClientSocket("192.168.0.2", PORT);
             _nClientSocketLine3.ClientConnect();
 #endif
@@ -158,6 +165,28 @@ namespace NTech.Xm.Station.ViewModels
             //_disTimerDetectDayChange.Tick += _disTimerDetectDayChange_Tick;
             //_disTimerDetectDayChange.Start();
 
+        }
+
+        private void ErrorCallBack_LocalHost(string errorMsg)
+        {
+            MessageBox.Show(errorMsg);
+        }
+
+        private void ConnectionCallBack_LocalHost(NClientSocket.EConnectionEventClient e, object obj)
+        {
+            switch (e)
+            {
+                case NClientSocket.EConnectionEventClient.RECEIVEDATA:
+                    this.WirteLogSystem(this.MainView.paraLog, _nClientSocketLocalHost.ReceiveString, Define.SolidColorOK);
+                    break;
+                case NClientSocket.EConnectionEventClient.CLIENTCONNECTED:
+                    this.WirteLogSystem(this.MainView.paraLog, $"Da ket noi duoc voi Service PLC", Define.SolidColorOK);
+                    break;
+                case NClientSocket.EConnectionEventClient.CLIENTDISCONNECTED:
+                    break;
+                default:
+                    break;
+            }
         }
 
         //private void _disTimerDetectDayChange_Tick(object sender, EventArgs e)
@@ -550,13 +579,13 @@ namespace NTech.Xm.Station.ViewModels
         {
             this._nClientSocket.SendMsg(text);
         }
-#if !LINE2
+#if LINE2
         public void SendMsgToLine3(string text)
         {
             this._nClientSocketLine2.SendMsg(text);
         }
 #endif
-#if LINE3
+#if !LINE3
         public void SendMsgToLine2(string text)
         {
             this._nClientSocketLine3.SendMsg(text);
