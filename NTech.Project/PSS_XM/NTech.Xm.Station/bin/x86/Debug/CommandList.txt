@@ -1,6 +1,0 @@
-Command List:
-NeM: NewMessage
-DeM: DeleteMessage
-Prt: Printing
-PrD: PrintedDone
-NPrD: NotPrintedDone

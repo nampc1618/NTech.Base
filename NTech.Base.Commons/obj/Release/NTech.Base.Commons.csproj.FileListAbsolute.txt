@@ -1,6 +1,0 @@
-D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Commons\bin\Release\NTech.Base.Commons.dll
-D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Commons\bin\Release\NTech.Base.Commons.pdb
-D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Commons\obj\Release\NTech.Base.Commons.csproj.AssemblyReference.cache
-D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Commons\obj\Release\NTech.Base.Commons.csproj.CoreCompileInputs.cache
-D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Commons\obj\Release\NTech.Base.Commons.dll
-D:\ENTRY\@NTECH\NTECHBASE\NTech.Base\NTech.Base.Commons\obj\Release\NTech.Base.Commons.pdb

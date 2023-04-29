@@ -1,6 +1,0 @@
-D:\ENTRY\NTech\NBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Resources\bin\Debug\NTech.Resources.dll
-D:\ENTRY\NTech\NBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Resources\bin\Debug\NTech.Resources.pdb
-D:\ENTRY\NTech\NBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Resources\obj\Debug\NTech.Resources.csproj.AssemblyReference.cache
-D:\ENTRY\NTech\NBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Resources\obj\Debug\NTech.Resources.csproj.CoreCompileInputs.cache
-D:\ENTRY\NTech\NBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Resources\obj\Debug\NTech.Resources.dll
-D:\ENTRY\NTech\NBASE\NTech.Base\NTech.Project\PSS_XM\NTech.Resources\obj\Debug\NTech.Resources.pdb
