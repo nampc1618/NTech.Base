@@ -32,6 +32,7 @@ using System.Windows.Threading;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using static System.Net.Mime.MediaTypeNames;
+using Kis.Toolkit;
 
 namespace NTech.Xm.Station.ViewModels
 {
@@ -59,10 +60,10 @@ namespace NTech.Xm.Station.ViewModels
         //Timer detect day change
         //DispatcherTimer _disTimerDetectDayChange;
 
-#if LINE2
+#if !LINE2
         private NClientSocket _nClientSocketLine2;
 #endif
-#if !LINE3
+#if LINE3
         private NClientSocket _nClientSocketLine3;
 #endif
 
@@ -128,37 +129,46 @@ namespace NTech.Xm.Station.ViewModels
             this._nClientSocket.ClientErrorEventCallback += _nClientSocket_ClientErrorEventCallback;
             this._nClientSocket.ClientConnect(dataReceiveIsUTF8);
 
-            _nClientSocketLocalHost = new NClientSocket(LocalHostIP, LOCALHOST_PORT);
-            _nClientSocketLocalHost.ConnectionEventCallback += ConnectionCallBack_LocalHost;
-            _nClientSocketLocalHost.ClientErrorEventCallback += ErrorCallBack_LocalHost;
-            _nClientSocketLocalHost.ClientConnect(dataReceiveIsUTF8);
+            if (SettingsViewModel.UsePLC.Equals("true"))
+            {
+                _nClientSocketLocalHost = new NClientSocket(LocalHostIP, LOCALHOST_PORT);
+                _nClientSocketLocalHost.ConnectionEventCallback += ConnectionCallBack_LocalHost;
+                _nClientSocketLocalHost.ClientErrorEventCallback += ErrorCallBack_LocalHost;
+                _nClientSocketLocalHost.ClientConnect(dataReceiveIsUTF8);
+            }
 
             this._nServerSocket = new NServerSocket();
             this._nServerSocket.ConnectionEventCallback += _nServerSocket_ConnectionEventCallback;
             this._nServerSocket.ServerErrorEventCallback += _nServerSocket_ServerErrorEventCallback;
             this._nServerSocket.StartListening(PORT);
 
-#if LINE2
+#if !LINE2
             _nClientSocketLine2 = new NClientSocket("192.168.0.3", PORT);
             _nClientSocketLine2.ClientConnect();
 #endif
-#if !LINE3
+#if LINE3
             _nClientSocketLine3 = new NClientSocket("192.168.0.2", PORT);
             _nClientSocketLine3.ClientConnect();
 #endif
 
             this.DateNow = DateTime.Now;
+
             this._startDate = DateTime.Now.Date;
             this._endDate = DateTime.Now.Date.AddDays(1).AddTicks(-1);
             this.StartDateConverted = _startDate?.ToString("dd-MM-yyyy");
             this.EndDateConverted = _endDate?.ToString("dd-MM-yyyy");
 
+            _nowDate = DateTime.Now.Date;
+            _lastDate = DateTime.Now.Date.AddDays(-1);
+
             this.StrDateNow = DateNow.ToString("dd-MM-yyyy");
-            this.SelectMessagesDetail_NewAndAll(StrDateNow);
+            //this.SelectMessagesDetail_NewAndAll(StrDateNow);
+            SelectMessagesDetail_All2Day();
+
 
             this._threadDetectDayChange = new Thread(new ThreadStart(DetectDayChange));
             this._threadDetectDayChange.Start();
-            this._threadDetectDayChange.IsBackground= true;
+            this._threadDetectDayChange.IsBackground = true;
 
             //_disTimerDetectDayChange = new DispatcherTimer();
             //_disTimerDetectDayChange.Interval = TimeSpan.FromSeconds(5);
@@ -177,6 +187,17 @@ namespace NTech.Xm.Station.ViewModels
             switch (e)
             {
                 case NClientSocket.EConnectionEventClient.RECEIVEDATA:
+                    //Handle data received from PLC
+                    if (_nClientSocketLocalHost.ReceiveString != null)
+                    {
+                        string dataReceived = _nClientSocketLocalHost.ReceiveString;
+                        string[] arr = dataReceived.Split(new char[] { ',' });
+                        for (int i = 0; i < arr.Length; i++)
+                        {
+                            if (arr[i] != null)
+                                LineViewModel.LINEByUse.Printers[i].PlcCount = uint.Parse(arr[i]);
+                        }
+                    }
                     this.WirteLogSystem(this.MainView.paraLog, _nClientSocketLocalHost.ReceiveString, Define.SolidColorOK);
                     break;
                 case NClientSocket.EConnectionEventClient.CLIENTCONNECTED:
@@ -219,12 +240,17 @@ namespace NTech.Xm.Station.ViewModels
                 {
                     lock (_objLock)
                     {
-                        DateNow = DateTime.Now;
-                        StrDateNow = DateNow.ToString("dd-MM-yyyy");
-                        this.SelectMessagesDetail_NewAndAll(StrDateNow);
+                        //DateNow = DateTime.Now;
+                        //StrDateNow = DateNow.ToString("dd-MM-yyyy");
+                        //this.SelectMessagesDetail_NewAndAll(StrDateNow);
+
+                        _nowDate = DateTime.Now.Date;
+                        _lastDate = DateTime.Now.Date.AddDays(-1);
+
+                        SelectMessagesDetail_All2Day();
                     }
                 }
-                Thread.Sleep(3000);
+                Thread.Sleep(2000);
             }
         }
         private void _nServerSocket_ServerErrorEventCallback(string errorMsg)
@@ -246,7 +272,8 @@ namespace NTech.Xm.Station.ViewModels
                         {
                             if (DATA_RECEIVED.Contains("Prt"))
                             {
-                                this.SelectMessagesDetail_NewAndAll(StrDateNow);
+                                //this.SelectMessagesDetail_NewAndAll(StrDateNow);
+                                SelectMessagesDetail_All2Day();
                             }
                             else if (DATA_RECEIVED.Contains("NPrD"))
                             {
@@ -270,7 +297,8 @@ namespace NTech.Xm.Station.ViewModels
                         DATA_RECEIVED = _nClientSocket.ReceiveString;
                         if (DATA_RECEIVED.Contains("NeM") || DATA_RECEIVED.Contains("DeM"))
                         {
-                            this.SelectMessagesDetail_NewAndAll(StrDateNow);
+                            //this.SelectMessagesDetail_NewAndAll(StrDateNow);
+                            SelectMessagesDetail_All2Day();
                         }
                         break;
                     case NClientSocket.EConnectionEventClient.CLIENTCONNECTED:
@@ -454,7 +482,52 @@ namespace NTech.Xm.Station.ViewModels
         public string StartDateConverted { get; set; }
         public string EndDateConverted { get; set; }
 
+
+        private DateTime? _lastDate;
+        public DateTime? LastDate
+        {
+            get
+            {
+                return _lastDate;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    if (Set(ref _lastDate, value))
+                    {
+                        this.LastDateConverted = _lastDate?.ToString("dd-MM-yyyy");
+                    }
+                }
+            }
+        }
+
+        private DateTime? _nowDate;
+        public DateTime? NowDate
+        {
+            get
+            {
+                return _nowDate;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    if (Set(ref _nowDate, value))
+                    {
+                        this.NowDateConverted = _nowDate?.ToString("dd-MM-yyyy");
+                    }
+                }
+            }
+        }
+        public string LastDateConverted { get; set; }
+        public string NowDateConverted { get; set; }
+
         #region Methods
+        public void SendCmdToPlc(string cmd)
+        {
+            _nClientSocketLocalHost.SendMsg(cmd);
+        }
         private bool SetTextInfoSendToPrinter()
         {
 
@@ -579,13 +652,13 @@ namespace NTech.Xm.Station.ViewModels
         {
             this._nClientSocket.SendMsg(text);
         }
-#if LINE2
+#if !LINE2
         public void SendMsgToLine3(string text)
         {
             this._nClientSocketLine2.SendMsg(text);
         }
 #endif
-#if !LINE3
+#if LINE3
         public void SendMsgToLine2(string text)
         {
             this._nClientSocketLine3.SendMsg(text);
@@ -614,6 +687,25 @@ namespace NTech.Xm.Station.ViewModels
             this.AllMessagesDetailListClone = this.AllMessagesDetailList;
 
         }
+        public void SelectMessagesDetail_All2Day()
+        {
+            var database = _taskManagerDB.SelectMessagesDetailBetween2Date(DBName, LastDate, NowDate);
+            var listMessageDetail = database?.DataSet?.Tables[0].ToObservableCollection<MessagesDetailModel>();
+            if (listMessageDetail == null)
+                return;
+
+            var newMsgDetailList = listMessageDetail.Where(x => x.NumberBagsPrinted == 0 && x.MessageState == "Chưa in")
+                                                    .ToList();
+            var allMsgDetailList = listMessageDetail.Where(x => !x.MessageState.Equals("Chưa in"))
+                                                    .ToList();
+
+            ObservableCollection<MessagesDetailModel> newMsgDetail = new ObservableCollection<MessagesDetailModel>(newMsgDetailList);
+            ObservableCollection<MessagesDetailModel> allMsgDetail = new ObservableCollection<MessagesDetailModel>(allMsgDetailList);
+            this.NewMessagesDetailList = newMsgDetail;
+            this.NewMessagesDetailListClone = this.NewMessagesDetailList;
+            this.AllMessagesDetailList = allMsgDetail;
+            this.AllMessagesDetailListClone = this.AllMessagesDetailList;
+        }
         public void SelectMessagesDetail_Printing(string date)
         {
             var database = _taskManagerDB.SelectMessagesDetailByDate(DBName, new string[1] { date });
@@ -626,6 +718,21 @@ namespace NTech.Xm.Station.ViewModels
             ObservableCollection<MessagesDetailModel> printingMsgDetailObser = new ObservableCollection<MessagesDetailModel>(printingMsgDetailList);
             this.PrintingMessagesDetailList = printingMsgDetailObser;
         }
+
+        public void SelectMessagesDetail_AllPrinting()
+        {
+            var lastDate = NowDate?.AddDays(-10);
+            var database = _taskManagerDB.SelectMessagesDetailBetween2Date(DBName, lastDate, NowDate);
+            var listMessageDetail = database?.DataSet?.Tables[0].ToObservableCollection<MessagesDetailModel>();
+            if (listMessageDetail == null)
+                return;
+
+            var printingMsgDetailList = listMessageDetail.Where(x => x.MessageState == "Đang in" && x.Line == this.LineViewModel.LINEByUse.LineName)
+                                                         .ToList();
+            ObservableCollection<MessagesDetailModel> printingMsgDetailObser = new ObservableCollection<MessagesDetailModel>(printingMsgDetailList);
+            this.PrintingMessagesDetailList = printingMsgDetailObser;
+        }
+
         public void SelectMessagesDetailBetween2Date()
         {
             var database = _taskManagerDB.SelectMessagesDetailBetween2Date(DBName, StartDate, EndDate);

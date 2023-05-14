@@ -1,16 +1,22 @@
-﻿using NTech.Xm.Commons.Defines;
+﻿using Kis.Toolkit;
+using NTech.Xm.Commons.Defines;
 using NTech.Xm.Station.Command;
+using NTech.Xm.Station.Commons.Defines;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using System.Xml;
 
 namespace NTech.Xm.Station.ViewModels
 {
     public class SettingsViewModel : ViewModelBase
     {
+        XmlManagement xmlManagement;
         public static SettingsViewModel Instance { get; private set; }
         public LoginViewModel LoginViewModel { get; private set; }
         public LineViewModel LineViewModel { get; private set; }
@@ -22,6 +28,15 @@ namespace NTech.Xm.Station.ViewModels
                 Instance = this;
             else
                 return;
+
+            xmlManagement = new XmlManagement();
+            xmlManagement.Load(Define.PlcPath);
+            UsePLC = xmlManagement.SelectSingleNode("//PLC/UsePLC").InnerText.Trim();
+            if (UsePLC.Equals("true"))
+                _isUsePLC = true;
+            else
+                _isUsePLC = false;
+
             this.LoginViewModel = loginViewModel;
 
             this.LoginViewModel.LoginEvent += LoginViewModel_LoginEvent;
@@ -78,6 +93,46 @@ namespace NTech.Xm.Station.ViewModels
             }
         }
 
+        private string _usePLC;
+        public string UsePLC
+        {
+            get => _usePLC;
+            set
+            {
+                if (Set(ref _usePLC, value))
+                {
+
+                }
+            }
+        }
+        private bool _isUsePLC;
+        public bool IsUsePLC
+        {
+            get => _isUsePLC;
+            set
+            {
+                if (Set(ref _isUsePLC, value))
+                {
+                    XmlNode nodeUsePLC = xmlManagement.SelectSingleNode("//PLC/UsePLC");
+                    if (_isUsePLC)
+                    {
+                        xmlManagement.SetNodeValueFromNode(nodeUsePLC, "true");
+                    }
+                    else
+                    {
+                        xmlManagement.SetNodeValueFromNode(nodeUsePLC, "false");
+                    }
+                    if (xmlManagement.Save(Define.PlcPath))
+                    {
+                        MessageBox.Show("Done!");
+                    }
+                }
+            }
+        }
+        public void RunScript(string path)
+        {
+            Process.Start(new ProcessStartInfo("Powershell.exe", path) { UseShellExecute = true });
+        }
         public ICommand CheckAllStatusLEDTableFixedCmd { get; }
         public ICommand CheckSingleStatusLEDTableFixedCmd { get; }
         public ICommand SaveMsgParamCmd { get; }

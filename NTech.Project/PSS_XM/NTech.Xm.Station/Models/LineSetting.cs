@@ -292,6 +292,18 @@ namespace NTech.Xm.Station.Models
                 }
             }
         }
+        private uint _plcCount;
+        public uint PlcCount
+        {
+            get => _plcCount;
+            set
+            {
+                if(SetProperty(ref _plcCount, value))
+                {
+
+                }
+            }
+        }
 
         private int _messagePrintCountShow;
         /// <summary>

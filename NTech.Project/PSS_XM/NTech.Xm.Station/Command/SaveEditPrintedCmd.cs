@@ -32,7 +32,8 @@ namespace NTech.Xm.Station.Command
             _editMessagePrintedViewModel.MessagesDetailModel.Note = note;
             
             _editMessagePrintedViewModel.UpdateNoteForMessageDetail();
-            MainViewModel.Instance.SelectMessagesDetail_NewAndAll(DateTime.Now.ToString("dd-MM-yyyy"));
+            //MainViewModel.Instance.SelectMessagesDetail_NewAndAll(DateTime.Now.ToString("dd-MM-yyyy"));
+            MainViewModel.Instance.SelectMessagesDetail_All2Day();
             MaterialMessageBox.Show("Chỉnh sửa thành công!");
             _editMessagePrintedViewModel.EditMessagePrintedView.Close();
         }

@@ -111,6 +111,7 @@ namespace NTech.Xm.Station.Commons.Defines
         public static readonly string IPPrinterPath = Path.Combine(Environment.CurrentDirectory, "IPPrinterList.xml");
         public static readonly string IPTroughPath = Path.Combine(Environment.CurrentDirectory, "IPTroughList.xml");
         public static readonly string MsgParamPath = Path.Combine(Environment.CurrentDirectory, "MsgParam.xml");
+        public static readonly string PlcPath = Path.Combine(Environment.CurrentDirectory, "PLC.xml");
 
         public static readonly SolidColorBrush SolidColorOK = (SolidColorBrush)new BrushConverter().ConvertFromString("#2E7D32");
         public static readonly SolidColorBrush SolidColorFail = (SolidColorBrush)new BrushConverter().ConvertFromString("#DD2C00");

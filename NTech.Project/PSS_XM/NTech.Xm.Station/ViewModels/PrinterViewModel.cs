@@ -35,7 +35,9 @@ namespace NTech.Xm.Station.ViewModels
 {
     public class PrinterViewModel : ViewModelBase
     {
+        public log4net.ILog Logger { get; } = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly Dispatcher _dispatcher;
+        bool _flag = false;
 
         #region Printers
 
@@ -232,6 +234,21 @@ namespace NTech.Xm.Station.ViewModels
             var database = _taskManagerDB.SelectMessageDetailByGuidAndDateNow(DBName, customdata);
             var listMessageDetailModel = database?.DataSet?.Tables[0].ToObservableCollection<MessagesDetailModel>();
             printer.MessagesDetailModel = listMessageDetailModel.FirstOrDefault();
+
+        }
+        public void SelectMessageDetaiNewestlForPrinter_2(PRINTER printer)
+        {
+            DateTime? nowDate = DateTime.Now.Date;
+            DateTime? preDate = DateTime.Now.Date.AddDays(-7);
+
+            var database = _taskManagerDB.SelectMessagesDetailBetween2Date(DBName, preDate, nowDate);
+            var listMessageDetailModel = database?.DataSet?.Tables[0].ToObservableCollection<MessagesDetailModel>();
+
+            var printingMsgDetailList = listMessageDetailModel
+                                        .Where(x => x.Guid == printer.GuidMsgNewest && x.Line == this.LineViewModel.LINEByUse.LineName)
+                                        .ToList();
+
+            printer.MessagesDetailModel = printingMsgDetailList.FirstOrDefault();
 
         }
         public void UpdateGuidMsgNewest()
@@ -559,7 +576,11 @@ namespace NTech.Xm.Station.ViewModels
                     switch (commandIdPrinter)
                     {
                         case (char)CommandsIDPrinter.RequestMessagePrintCount:
-
+                            if (SettingsViewModel.Instance.IsUsePLC)
+                            {
+                                //code
+                                return;
+                            }
                             if (chs[0] == (char)0x1B && chs[1] == _commandExecuted)
                             {
                                 // code
@@ -577,11 +598,60 @@ namespace NTech.Xm.Station.ViewModels
                                         }
                                         if (printer.PRINTER_STATES == PRINTER_STATES.PRINTING)
                                         {
-                                            string hexValue = ((byte)chs[8]).ToString("X") + ((byte)chs[7]).ToString("X")
-                                                              + ((byte)chs[6]).ToString("X") + ((byte)chs[5]).ToString("X"); //Convert dec -> hex
-                                            int decValue = Convert.ToInt32(hexValue, 16); // Convert hex -> dec
+                                            string hexValue;
+                                            int decValue;
+
+                                            string hexValue1, hexValue2, hexValue3, hexValue4;
+
+                                            if (((byte)chs[5]) == 27 || ((byte)chs[6]) == 27 || ((byte)chs[7]) == 27 || ((byte)chs[8]) == 27)
+                                            {
+                                                hexValue1= ((byte)chs[9]).ToString("X");
+                                                hexValue2 = ((byte)chs[8]).ToString("X");
+                                                hexValue3 = ((byte)chs[7]).ToString("X");
+                                                hexValue4 = ((byte)chs[6]).ToString("X");
+                                                if (((byte)chs[6] >= 0) && ((byte)chs[6] <= 15))
+                                                {
+                                                    hexValue4 = "0" + hexValue4;
+                                                }
+                                                if (((byte)chs[7] >= 0) && ((byte)chs[7] <= 15))
+                                                {
+                                                    hexValue3 = "0" + hexValue3;
+                                                }
+
+                                                hexValue = hexValue1 + hexValue2 + hexValue3 + hexValue4;
+                                                decValue = Convert.ToInt32(hexValue, 16);
+                                                printer.MessagePrintCount = decValue;
+                                                return;
+                                            }
+
+                                            if((((byte)chs[9]) == 0 || ((byte)chs[9]) == 3))
+                                            {
+                                                if (!_flag)
+                                                {
+                                                    printer.MessagePrintCount++;
+                                                    _flag = !_flag;
+                                                }
+                                                return;
+                                            }
+
+                                            _flag = false;
+
+                                            hexValue1 = ((byte)chs[8]).ToString("X");
+                                            hexValue2 = ((byte)chs[7]).ToString("X");
+                                            hexValue3 = ((byte)chs[6]).ToString("X");
+                                            hexValue4 = ((byte)chs[5]).ToString("X");
+                                            if (((byte)chs[5] >= 0) && ((byte)chs[5] <= 15))
+                                            {
+                                                hexValue4 = "0" + hexValue4;
+                                            }
+                                            if (((byte)chs[6] >= 0) && ((byte)chs[6] <= 15))
+                                            {
+                                                hexValue3 = "0" + hexValue3;
+                                            }
+                                            hexValue = hexValue1 + hexValue2 + hexValue3 + hexValue4; //Convert dec -> hex
+
+                                            decValue = Convert.ToInt32(hexValue, 16); // Convert hex -> dec
                                             printer.MessagePrintCount = decValue;
-                                            await Task.Delay(2);
                                         }
                                     });
                                 }
@@ -596,61 +666,8 @@ namespace NTech.Xm.Station.ViewModels
                                 printer.Stop();
                                 MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"{printer.PrinterName} không thể đọc được số đếm của bản tin", Define.SolidColorFail);
                             }
+
                             break;
-#if !DEBUG
-                            case (char)CommandsIDPrinter.RequestTotalPrintCount:
-                                if (chs[0] == (char)0x1B && chs[1] == _commandExecuted)
-                                {
-                                    // code
-                                    if (chs[2] == (char)0x0 && chs[3] == (char)0x0)
-                                    {
-                                        string hexValue = ((byte)chs[8]).ToString("X") + ((byte)chs[7]).ToString("X")
-                                                          + ((byte)chs[6]).ToString("X") + ((byte)chs[5]).ToString("X"); //Convert dec -> hex
-                                        int decValue = Convert.ToInt32(hexValue, 16); // Convert hex -> dec
-                                    }
-                                }
-                                else if (chs[0] == (char)0x1B && chs[1] == _commandNoExecuted)
-                                {
-                                    // code
-
-                                }
-                                break;
-                            case (char)CommandsIDPrinter.SetMessagePrintCount:
-                                if (chs[0] == (char)0x1B && chs[1] == _commandExecuted)
-                                {
-                                    // code
-                                    if (chs[2] == (char)0x0 && chs[3] == (char)0x0)
-                                    {
-                                        if (this.PRINTER1_LINE3.PRINTER_STATES == PRINTER_STATES.PRINT_READY)
-                                        {
-                                            this.StepsPerform(PRINTER1_LINE3, STEPS_PERFORM.START_PRINT);
-                                        }
-                                    }
-                                }
-                                else if (chs[0] == (char)0x1B && chs[1] == _commandNoExecuted)
-                                {
-                                    // code
-                                }
-                                break;
-                            case (char)CommandsIDPrinter.DownloadRemoteFieldData:
-                                if (chs[0] == (char)0x1B && chs[1] == _commandExecuted)
-                                {
-                                    // code
-
-                                    this.PRINTER1_LINE3.PRINTER_STATES = PRINTER_STATES.PRINT_READY;
-                                    this.StepsPerform(PRINTER1_LINE3, STEPS_PERFORM.SET_MESSAGE_PRINT_COUNT);
-                                    this.PRINTER1_LINE3.NotifyMsgOfPrinter = "Nạp bản tin thành công";
-
-                                    MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, "Nạp bản tin thành công", Define.SolidColorOK);
-                                }
-                                else if (chs[0] == (char)0x1B && chs[1] == _commandNoExecuted)
-                                {
-                                    // code
-                                    this.PRINTER1_LINE3.NotifyMsgOfPrinter = "Nạp bản tin không thành công " + "[" + CommandFaultCodeList.ToDescription(chs[3]) + "]";
-                                    MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"Nạp bản tin không thành công " + "[" + CommandFaultCodeList.ToDescription(chs[3]) + "]", Define.SolidColorFail);
-                                }
-                                break;
-#endif
 
                         case (char)CommandsIDPrinter.RequestPrinterStatus:
                             if (chs[0] == (char)0x1B && chs[1] == _commandExecuted)
@@ -668,7 +685,7 @@ namespace NTech.Xm.Station.ViewModels
                                     {
                                         printer.PRINTER_STATES = PRINTER_STATES.PRINTING;
                                         printer.MESSAGE_STATE = MESSAGE_STATE.PRINTING;
-                                        this.SelectMessageDetaiNewestlForPrinter(printer);
+                                        this.SelectMessageDetaiNewestlForPrinter_2(printer);
                                         this.PRINTERSelected = printer;
 
                                         if (printer.MessagesDetailModel != null)
@@ -686,8 +703,10 @@ namespace NTech.Xm.Station.ViewModels
                                                 {
                                                     printer.MessagesDetailModel.MessageState = Define.GetEnumDescription(MESSAGE_STATE.PRINTING);
                                                     MainViewModel.Instance.UpdateNumberBagPrintedAndMessageState(printer.MessagesDetailModel);
-                                                    MainViewModel.Instance.SelectMessagesDetail_Printing(DateNow);
-                                                    MainViewModel.Instance.SelectMessagesDetail_NewAndAll(DateNow);
+                                                    //MainViewModel.Instance.SelectMessagesDetail_Printing(DateNow);
+                                                    //MainViewModel.Instance.SelectMessagesDetail_NewAndAll(DateNow);
+                                                    MainViewModel.Instance.SelectMessagesDetail_AllPrinting();
+                                                    MainViewModel.Instance.SelectMessagesDetail_All2Day();
                                                     MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"{printer.PrinterName} đang in", Define.SolidColorOK);
 
                                                     printer.NumberBag = (printer.MessagesDetailModel.NumberBags);
@@ -785,14 +804,16 @@ namespace NTech.Xm.Station.ViewModels
                                             this.UpdateGuidMsgNewest();
                                             MainViewModel.Instance.UpdateMessageDetail();
                                             MainViewModel.Instance.SendMsgToServer("Prt");
-#if LINE2
+#if !LINE2
                                             MainViewModel.Instance.SendMsgToLine3("Prt");
 #endif
-#if !LINE3
+#if LINE3
                                             MainViewModel.Instance.SendMsgToLine2("Prt");
 #endif
-                                            MainViewModel.Instance.SelectMessagesDetail_Printing(DateNow);
-                                            MainViewModel.Instance.SelectMessagesDetail_NewAndAll(DateNow);
+                                            //MainViewModel.Instance.SelectMessagesDetail_Printing(DateNow);
+                                            //MainViewModel.Instance.SelectMessagesDetail_NewAndAll(DateNow);
+                                            MainViewModel.Instance.SelectMessagesDetail_AllPrinting();
+                                            MainViewModel.Instance.SelectMessagesDetail_All2Day();
                                         }
                                         else
                                         {
@@ -801,11 +822,15 @@ namespace NTech.Xm.Station.ViewModels
                                                 printer.MessagesDetailModel.MessageState = Define.GetEnumDescription(MESSAGE_STATE.PRINTING);
                                                 MainViewModel.Instance.UpdateNumberBagPrintedAndMessageState(printer.MessagesDetailModel);
                                             }
-                                            MainViewModel.Instance.SelectMessagesDetail_Printing(DateNow);
-                                            MainViewModel.Instance.SelectMessagesDetail_NewAndAll(DateNow);
+                                            //MainViewModel.Instance.SelectMessagesDetail_Printing(DateNow);
+                                            //MainViewModel.Instance.SelectMessagesDetail_NewAndAll(DateNow);
+                                            MainViewModel.Instance.SelectMessagesDetail_AllPrinting();
+                                            MainViewModel.Instance.SelectMessagesDetail_All2Day();
                                         }
                                         printer.PRINTER_STATES = PRINTER_STATES.PRINTING;
                                         printer.MESSAGE_STATE = MESSAGE_STATE.PRINTING;
+                                        // Code send reset command to PLC
+                                        MainViewModel.Instance.SendCmdToPlc($"{printer.StrTag},Rst");
                                         MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"{printer.PrinterName} bật in thành công", Define.SolidColorOK);
 
                                         printer.Start(500);
@@ -850,8 +875,10 @@ namespace NTech.Xm.Station.ViewModels
                                         printer.MessagesDetailModel.MessageState = Define.GetEnumDescription(MESSAGE_STATE.NOT_PRINT_DONE);
                                         MainViewModel.Instance.UpdateNumberBagPrintedAndMessageState(printer.MessagesDetailModel);
                                     }
-                                    MainViewModel.Instance.SelectMessagesDetail_Printing(DateNow);
-                                    MainViewModel.Instance.SelectMessagesDetail_NewAndAll(DateNow);
+                                    //MainViewModel.Instance.SelectMessagesDetail_Printing(DateNow);
+                                    //MainViewModel.Instance.SelectMessagesDetail_NewAndAll(DateNow);
+                                    MainViewModel.Instance.SelectMessagesDetail_AllPrinting();
+                                    MainViewModel.Instance.SelectMessagesDetail_All2Day();
 
                                     //Kiểm tra số lượng đã in và hiển thị bảng chỉnh sửa - 22/11/2022
                                     if (printer.MessagesDetailModel.NumberBagsPrinted > printer.MessagesDetailModel.NumberBags ||
@@ -917,8 +944,6 @@ namespace NTech.Xm.Station.ViewModels
 
                             break;
 
-
-
                         case (char)CommandsIDPrinter.DownloadMessageData:
                             if (chs[0] == (char)0x1B && chs[1] == _commandExecuted)
                             {
@@ -945,7 +970,9 @@ namespace NTech.Xm.Station.ViewModels
                                 // code
                                 MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"{printer.PrinterName} TẠO bản tin thất bại [Lỗi máy in: {PrinterFaultList.ToDescription(chs[2])}  Lỗi command: {CommandFaultCodeList.ToDescription(chs[3])}]", Define.SolidColorFail);
                             }
+
                             break;
+
                         case (char)CommandsIDPrinter.LoadPrintMessage:
                             if (chs[0] == (char)0x1B && chs[1] == _commandExecuted)
                             {
@@ -974,7 +1001,9 @@ namespace NTech.Xm.Station.ViewModels
                                 // code
                                 MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"{printer.PrinterName} TẢI bản tin thất bại", Define.SolidColorFail);
                             }
+
                             break;
+
                         case (char)CommandsIDPrinter.DeleteMessageData:
                             if (chs[0] == (char)0x1B && chs[1] == _commandExecuted)
                             {
@@ -1000,6 +1029,7 @@ namespace NTech.Xm.Station.ViewModels
                                 // code
                                 MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"{printer.PrinterName} XÓA bản tin thất bại", Define.SolidColorFail);
                             }
+
                             break;
                         default:
                             break;
@@ -1035,7 +1065,7 @@ namespace NTech.Xm.Station.ViewModels
             PRINTER2_LINE1.PRINTERClientSocket.ClientErrorEventCallback += PRINTER2_LINE1_ClientErrorEventCallback;
 #endif
 
-#if LINE2
+#if !LINE2
             PRINTER1_LINE2.PRINTERClientSocket = new NClientSocket(PRINTER1_LINE2.IPAddress, PRINTER1_LINE2.PORT_PRINTER);
             PRINTER2_LINE2.PRINTERClientSocket = new NClientSocket(PRINTER2_LINE2.IPAddress, PRINTER2_LINE2.PORT_PRINTER);
             PRINTER3_LINE2.PRINTERClientSocket = new NClientSocket(PRINTER3_LINE2.IPAddress, PRINTER3_LINE2.PORT_PRINTER);
@@ -1057,7 +1087,7 @@ namespace NTech.Xm.Station.ViewModels
             PRINTER6_LINE2.PRINTERClientSocket.ClientErrorEventCallback += PRINTER6_LINE2_ClientErrorEventCallback;
 #endif
 
-#if !LINE3
+#if LINE3
             PRINTER1_LINE3.PRINTERClientSocket = new NClientSocket(PRINTER1_LINE3.IPAddress, PRINTER1_LINE3.PORT_PRINTER);
             PRINTER2_LINE3.PRINTERClientSocket = new NClientSocket(PRINTER2_LINE3.IPAddress, PRINTER2_LINE3.PORT_PRINTER);
             PRINTER3_LINE3.PRINTERClientSocket = new NClientSocket(PRINTER3_LINE3.IPAddress, PRINTER3_LINE3.PORT_PRINTER);
@@ -1082,7 +1112,7 @@ namespace NTech.Xm.Station.ViewModels
         }
 
         #region ConnectionEventCallback
-        
+
 
 #if !LINE1
         private void PRINTER1_LINE1_ConnectionEventCallback(NClientSocket.EConnectionEventClient e, object obj)
@@ -1095,7 +1125,7 @@ namespace NTech.Xm.Station.ViewModels
         }
 #endif
 
-#if LINE2
+#if !LINE2
         private async void PRINTER1_LINE2_ConnectionEventCallback(NClientSocket.EConnectionEventClient e, object obj)
         {
             await this._dispatcher.BeginInvoke(new Action(async () =>
@@ -1160,8 +1190,8 @@ namespace NTech.Xm.Station.ViewModels
         }
 #endif
 
-        
-#if !LINE3
+
+#if LINE3
         private async void PRINTER1_LINE3_ConnectionEventCallback(NClientSocket.EConnectionEventClient e, object obj)
         {
             await this._dispatcher.BeginInvoke(new Action(async () =>
@@ -1230,9 +1260,9 @@ namespace NTech.Xm.Station.ViewModels
         }
 #endif
 
-#endregion
+        #endregion
 
-            #region ErrorEventCallback
+        #region ErrorEventCallback
 
 #if !LINE1
         private void PRINTER1_LINE1_ClientErrorEventCallback(string errorMsg)
@@ -1245,8 +1275,8 @@ namespace NTech.Xm.Station.ViewModels
         }
 #endif
 
-#if LINE2
-            private void PRINTER1_LINE2_ClientErrorEventCallback(string errorMsg)
+#if !LINE2
+        private void PRINTER1_LINE2_ClientErrorEventCallback(string errorMsg)
         {
             MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"{this.PRINTER1_LINE2.PrinterName} {errorMsg}", Define.SolidColorFail);
             MessageBox.Show(errorMsg);
@@ -1278,7 +1308,7 @@ namespace NTech.Xm.Station.ViewModels
         }
 #endif
 
-#if !LINE3
+#if LINE3
         private void PRINTER1_LINE3_ClientErrorEventCallback(string errorMsg)
         {
             MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"{this.PRINTER1_LINE3.PrinterName} {errorMsg}", Define.SolidColorFail);
