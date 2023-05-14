@@ -55,6 +55,12 @@ namespace NTech.Xm.Database
             DBResultModel result = _task.SelectMessagesDetailByDate(new DBRequestModel() { DBName = dbName,  CustomInputData = day});
             return result;
         }
+        public DBResultModel SelectMessagesDetailAllPrinting(string dbName, string[] msgState)
+        {
+            DBResultModel result = _task.SelectMessagesDetailAllPrinting(new DBRequestModel() { DBName = dbName, CustomInputData = msgState });
+            return result;
+        }
+        
         public DBResultModel SelectMessageDetailByGuidAndDateNow(string dbName, params object[] data)
         {
             DBResultModel result = _task.SelectMessageDetailByGuidAndDateNow(new DBRequestModel() { DBName = dbName, CustomInputData = data });

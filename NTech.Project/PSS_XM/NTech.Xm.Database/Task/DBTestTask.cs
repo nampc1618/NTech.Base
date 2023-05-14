@@ -105,6 +105,18 @@ namespace NTech.Xm.Database.Task
             var result = dbService?.ExecuteDataSet(requestModel);
             return result;
         }
+        public DBResultModel SelectMessagesDetailAllPrinting(DBRequestModel requestModel)
+        {
+            StringBuilder query = new StringBuilder();
+            query.Append("Select * from dbo.MessagesDetail where MessageState = N'" + requestModel.CustomInputData[0] + "' ");
+
+            requestModel.IsStoredProcedure = false;
+            requestModel.Query = query.ToString();
+
+            var dbService = DBConnector.Create(requestModel.DBName);
+            var result = dbService?.ExecuteDataSet(requestModel);
+            return result;
+        }
         public DBResultModel SelectMessageDetailByGuidAndDateNow(DBRequestModel requestModel)
         {
             var data = requestModel.CustomInputData;
