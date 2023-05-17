@@ -576,11 +576,6 @@ namespace NTech.Xm.Station.ViewModels
                     switch (commandIdPrinter)
                     {
                         case (char)CommandsIDPrinter.RequestMessagePrintCount:
-                            if (SettingsViewModel.Instance.IsUsePLC)
-                            {
-                                //code
-                                return;
-                            }
                             if (chs[0] == (char)0x1B && chs[1] == _commandExecuted)
                             {
                                 // code
@@ -711,7 +706,7 @@ namespace NTech.Xm.Station.ViewModels
 
                                                     printer.NumberBag = (printer.MessagesDetailModel.NumberBags);
                                                     printer.MessagePrintCountShow = printer.NumberBag;
-                                                    printer.Start(500);
+                                                    printer.Start(200);
                                                     return;
                                                 }
                                             }
@@ -830,10 +825,10 @@ namespace NTech.Xm.Station.ViewModels
                                         printer.PRINTER_STATES = PRINTER_STATES.PRINTING;
                                         printer.MESSAGE_STATE = MESSAGE_STATE.PRINTING;
                                         // Code send reset command to PLC
-                                        MainViewModel.Instance.SendCmdToPlc($"{printer.StrTag},Rst");
+                                        MainViewModel.Instance.SendCmdToPlc($"{printer.StrTag},R");
                                         MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"{printer.PrinterName} bật in thành công", Define.SolidColorOK);
 
-                                        printer.Start(500);
+                                        printer.Start(200);
                                     }
                                     else
                                     {

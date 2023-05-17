@@ -182,7 +182,7 @@ namespace NTech.Xm.Station.ViewModels
             MessageBox.Show(errorMsg);
         }
 
-        private void ConnectionCallBack_LocalHost(NClientSocket.EConnectionEventClient e, object obj)
+        private async void ConnectionCallBack_LocalHost(NClientSocket.EConnectionEventClient e, object obj)
         {
             switch (e)
             {
@@ -190,15 +190,9 @@ namespace NTech.Xm.Station.ViewModels
                     //Handle data received from PLC
                     if (_nClientSocketLocalHost.ReceiveString != null)
                     {
-                        string dataReceived = _nClientSocketLocalHost.ReceiveString;
-                        string[] arr = dataReceived.Split(new char[] { ',' });
-                        for (int i = 0; i < arr.Length; i++)
-                        {
-                            if (arr[i] != null)
-                                LineViewModel.LINEByUse.Printers[i].PlcCount = uint.Parse(arr[i]);
-                        }
+                        await HandleDataReceivedFromPlc(_nClientSocketLocalHost.ReceiveString);
                     }
-                    this.WirteLogSystem(this.MainView.paraLog, _nClientSocketLocalHost.ReceiveString, Define.SolidColorOK);
+                    //this.WirteLogSystem(this.MainView.paraLog, _nClientSocketLocalHost.ReceiveString, Define.SolidColorOK);
                     break;
                 case NClientSocket.EConnectionEventClient.CLIENTCONNECTED:
                     this.WirteLogSystem(this.MainView.paraLog, $"Da ket noi duoc voi Service PLC", Define.SolidColorOK);
@@ -210,6 +204,18 @@ namespace NTech.Xm.Station.ViewModels
             }
         }
 
+        private Task HandleDataReceivedFromPlc(string data)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                string[] arr = data.Split(new char[] { ',' });
+                for (int i = 0; i < arr.Length; i++)
+                {
+                    if (arr[i] != null)
+                        LineViewModel.LINEByUse.Printers[i].PlcCount = uint.Parse(arr[i]);
+                }
+            });
+        }
         //private void _disTimerDetectDayChange_Tick(object sender, EventArgs e)
         //{
 

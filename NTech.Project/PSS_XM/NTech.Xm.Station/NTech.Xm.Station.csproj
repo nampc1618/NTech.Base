@@ -321,4 +321,16 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>del E:\Nampc\@NTECH\CUSTOMER\PSS\PROJECT\NT01-PROJECT_XM_PSS_18082022\Deloy\Line3\x64\NLog.dll
+del E:\Nampc\@NTECH\CUSTOMER\PSS\PROJECT\NT01-PROJECT_XM_PSS_18082022\Deloy\Line3\x64\OpenCvSharp.CPlusPlus.dll
+del E:\Nampc\@NTECH\CUSTOMER\PSS\PROJECT\NT01-PROJECT_XM_PSS_18082022\Deloy\Line3\x64\OpenCvSharp.dll
+del E:\Nampc\@NTECH\CUSTOMER\PSS\PROJECT\NT01-PROJECT_XM_PSS_18082022\Deloy\Line3\x64\OpenCvSharp.Extensions.dll
+del E:\Nampc\@NTECH\CUSTOMER\PSS\PROJECT\NT01-PROJECT_XM_PSS_18082022\Deloy\Line3\x64\NLog.xml
+del E:\Nampc\@NTECH\CUSTOMER\PSS\PROJECT\NT01-PROJECT_XM_PSS_18082022\Deloy\Line3\x64\OpenCvSharp.CPlusPlus.xml
+del E:\Nampc\@NTECH\CUSTOMER\PSS\PROJECT\NT01-PROJECT_XM_PSS_18082022\Deloy\Line3\x64\OpenCvSharp.xml
+del E:\Nampc\@NTECH\CUSTOMER\PSS\PROJECT\NT01-PROJECT_XM_PSS_18082022\Deloy\Line3\x64\OpenCvSharp.Extensions.xml
+del E:\Nampc\@NTECH\CUSTOMER\PSS\PROJECT\NT01-PROJECT_XM_PSS_18082022\Deloy\Line3\x64\OpenCvSharp.CPlusPlus.dll.config
+del E:\Nampc\@NTECH\CUSTOMER\PSS\PROJECT\NT01-PROJECT_XM_PSS_18082022\Deloy\Line3\x64\OpenCvSharp.dll.config</PostBuildEvent>
+  </PropertyGroup>
 </Project>
