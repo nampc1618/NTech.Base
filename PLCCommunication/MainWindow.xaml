@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PLCCommunication"
         xmlns:vm="clr-namespace:PLCCommunication"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:conv="clr-namespace:PLCCommunication.Converters"
         d:DataContext="{d:DesignInstance vm:PLC}"
         mc:Ignorable="d"
@@ -29,35 +30,42 @@
                 <Border BorderBrush="LightGray"
                         BorderThickness="1"
                         Margin="2">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding PLCLine}"
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3.5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding PLCLine}"
                                    VerticalAlignment="Center"
                                    FontSize="22"
                                    FontWeight="Bold"
                                    Margin="3 0 0 0" />
-                        <TextBlock Text="{Binding IP}"
+                            <TextBlock Text="{Binding IP}"
                                    Name="tbIP"
                                    VerticalAlignment="Center"
                                    Margin="10 0 0 0"
                                    FontSize="18"
                                    FontWeight="Bold" />
-                        <TextBlock Text="{Binding PLCConnected, Converter={StaticResource ConverterPlcConnectToString}}"
+                            <TextBlock Text="{Binding PLCConnected, Converter={StaticResource ConverterPlcConnectToString}}"
                                    Name="tbStatusPLC"
                                    Margin="20 0 0 0"
                                    VerticalAlignment="Center"
                                    FontSize="18"
                                    FontWeight="SemiBold"
                                    Foreground="{Binding PLCConnected, Converter={StaticResource ConverterPlcConnectToForeground}}" />
-                        <Button Margin="80 2 0 2"
+                        </StackPanel>
+                        <Button Margin="5 2 0 2"
+                                Grid.Column="1"
                                 IsEnabled="{Binding PLCConnected}"
-                                Content="Stop"
+                                Content="STOP"
                                 Name="btnStop"
                                 Padding="2"
                                 Width="100"
                                 FontSize="18"
                                 FontWeight="Bold" 
                                 Click="btnStop_Click"/>
-                    </StackPanel>
+                    </Grid>
                 </Border>
                 <Border Grid.Row="1"
                         Margin="2"
@@ -75,14 +83,19 @@
                         <Border Grid.Row="0"
                                 BorderBrush="LightGray"
                                 BorderThickness="1">
-                            <StackPanel Orientation="Horizontal"
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3.5*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal"
                                         Margin="2">
-                                <TextBlock Margin="20 0 0 0"
+                                    <TextBlock Margin="20 0 0 0"
                                            Text="Máy in 1"
                                            VerticalAlignment="Center"
                                            FontSize="16"
                                            FontWeight="Bold" />
-                                <TextBlock Margin="120 0 0 0"
+                                    <TextBlock Margin="120 0 0 0"
                                            Name="lbCountNumberPLC1"
                                            FontSize="26"
                                            FontWeight="Bold"
@@ -90,25 +103,40 @@
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"
                                            Text="...."/>
-                                <Button Margin="150 2 0 2"
+                                </StackPanel>
+                                <Button Margin="5 2 0 2"
+                                        Grid.Column="1"
                                         Name="btnReset1"
-                                        Content="Reset"
+                                        Content="RESET"
                                         Width="100"
                                         FontSize="18"
-                                        FontWeight="Bold" />
-                            </StackPanel>
+                                        FontWeight="Bold" 
+                                        >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding ResetCmd}"
+                                                                   CommandParameter="1"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </Grid>
                         </Border>
                         <Border Grid.Row="1"
                                 BorderBrush="LightGray"
                                 BorderThickness="1">
-                            <StackPanel Orientation="Horizontal"
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3.5*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal"
                                         Margin="2">
-                                <TextBlock Margin="20 0 0 0"
+                                    <TextBlock Margin="20 0 0 0"
                                            Text="Máy in 2"
                                            VerticalAlignment="Center"
                                            FontSize="16"
                                            FontWeight="Bold" />
-                                <TextBlock Margin="120 0 0 0"
+                                    <TextBlock Margin="120 0 0 0"
                                            Name="lbCountNumberPLC2"
                                            FontSize="26"
                                            FontWeight="Bold"
@@ -116,25 +144,39 @@
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"
                                            Text="...."/>
-                                <Button Margin="150 2 0 2"
+                                </StackPanel>
+                                <Button Margin="5 2 0 2"
+                                        Grid.Column="1"
                                         Name="btnReset2"
-                                        Content="Reset"
+                                        Content="RESET"
                                         Width="100"
                                         FontSize="18"
-                                        FontWeight="Bold" />
-                            </StackPanel>
+                                        FontWeight="Bold" >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding ResetCmd}"
+                                                                   CommandParameter="2"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </Grid>
                         </Border>
                         <Border Grid.Row="2"
                                 BorderBrush="LightGray"
                                 BorderThickness="1">
-                            <StackPanel Orientation="Horizontal"
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3.5*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal"
                                         Margin="2">
-                                <TextBlock Margin="20 0 0 0"
+                                    <TextBlock Margin="20 0 0 0"
                                            Text="Máy in 3"
                                            VerticalAlignment="Center"
                                            FontSize="16"
                                            FontWeight="Bold" />
-                                <TextBlock Margin="120 0 0 0"
+                                    <TextBlock Margin="120 0 0 0"
                                            Name="lbCountNumberPLC3"
                                            FontSize="26"
                                            FontWeight="Bold"
@@ -142,25 +184,39 @@
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"
                                            Text="...."/>
-                                <Button Margin="150 2 0 2"
+                                </StackPanel>
+                                <Button Margin="5 2 0 2"
+                                        Grid.Column="1"
                                         Name="btnReset3"
-                                        Content="Reset"
+                                        Content="RESET"
                                         Width="100"
                                         FontSize="18"
-                                        FontWeight="Bold" />
-                            </StackPanel>
+                                        FontWeight="Bold" >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding ResetCmd}"
+                                                                   CommandParameter="3"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </Grid>
                         </Border>
                         <Border Grid.Row="3"
                                 BorderBrush="LightGray"
                                 BorderThickness="1">
-                            <StackPanel Orientation="Horizontal"
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3.5*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal"
                                         Margin="2">
-                                <TextBlock Margin="20 0 0 0"
+                                    <TextBlock Margin="20 0 0 0"
                                            Text="Máy in 4"
                                            VerticalAlignment="Center"
                                            FontSize="16"
                                            FontWeight="Bold" />
-                                <TextBlock Margin="120 0 0 0"
+                                    <TextBlock Margin="120 0 0 0"
                                            Name="lbCountNumberPLC4"
                                            FontSize="26"
                                            FontWeight="Bold"
@@ -168,26 +224,39 @@
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"
                                            Text="...."/>
-                                <Button Margin="150 2 0 2"
+                                </StackPanel>
+                                <Button Margin="5 2 0 2"
+                                        Grid.Column="1"
                                         Name="btnReset4"
-                                        Content="Reset"
+                                        Content="RESET"
                                         Width="100"
                                         FontSize="18"
-                                        FontWeight="Bold" 
-                                        Click="btnReset4_Click"/>
-                            </StackPanel>
+                                        FontWeight="Bold" >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding ResetCmd}"
+                                                                   CommandParameter="4"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </Grid>
                         </Border>
                         <Border Grid.Row="4"
                                 BorderBrush="LightGray"
                                 BorderThickness="1">
-                            <StackPanel Orientation="Horizontal"
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3.5*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal"
                                         Margin="2">
-                                <TextBlock Margin="20 0 0 0"
+                                    <TextBlock Margin="20 0 0 0"
                                            Text="Máy in 5"
                                            VerticalAlignment="Center"
                                            FontSize="16"
                                            FontWeight="Bold" />
-                                <TextBlock Margin="120 0 0 0"
+                                    <TextBlock Margin="120 0 0 0"
                                            Name="lbCountNumberPLC5"
                                            FontSize="26"
                                            FontWeight="Bold"
@@ -195,25 +264,39 @@
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"
                                            Text="...."/>
-                                <Button Margin="150 2 0 2"
+                                </StackPanel>
+                                <Button Margin="5 2 0 2"
+                                        Grid.Column="1"
                                         Name="btnReset5"
-                                        Content="Reset"
+                                        Content="RESET"
                                         Width="100"
                                         FontSize="18"
-                                        FontWeight="Bold" />
-                            </StackPanel>
+                                        FontWeight="Bold" >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding ResetCmd}"
+                                                                   CommandParameter="5"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </Grid>
                         </Border>
                         <Border Grid.Row="5"
                                 BorderBrush="LightGray"
                                 BorderThickness="1">
-                            <StackPanel Orientation="Horizontal"
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3.5*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal"
                                         Margin="2">
-                                <TextBlock Margin="20 0 0 0"
+                                    <TextBlock Margin="20 0 0 0"
                                            Text="Máy in 6"
                                            VerticalAlignment="Center"
                                            FontSize="16"
                                            FontWeight="Bold" />
-                                <TextBlock Margin="120 0 0 0"
+                                    <TextBlock Margin="120 0 0 0"
                                            Name="lbCountNumberPLC6"
                                            FontSize="26"
                                            FontWeight="Bold"
@@ -221,13 +304,22 @@
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"
                                            Text="...."/>
-                                <Button Margin="150 2 0 2"
+                                </StackPanel>
+                                <Button Margin="5 2 0 2"
+                                        Grid.Column="1"
                                         Name="btnReset6"
-                                        Content="Reset"
+                                        Content="RESET"
                                         Width="100"
                                         FontSize="18"
-                                        FontWeight="Bold" />
-                            </StackPanel>
+                                        FontWeight="Bold" >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding ResetCmd}"
+                                                                   CommandParameter="1"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </Grid>
                         </Border>
                     </Grid>
                 </Border>

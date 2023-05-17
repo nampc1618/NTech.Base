@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PLCCommunication.Commands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace PLCCommunication
     {
         PLC plc = new PLC();
         Thread threadPlc;
+        public log4net.ILog Logger { get; } = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public MainWindow()
         {
             InitializeComponent();
@@ -30,11 +32,13 @@ namespace PLCCommunication
             plc.CheckLineWithIPPC();
             plc.LoadPLCXml();
             plc.InitServer();
+            plc.ResetCmd = new ResetCmd(plc);
 
             this.DataContext = plc;
 
             if(plc.ConnectPLC())
             {
+                Logger.Info("Connected PLC, start thread Plc");
                 threadPlc = new Thread(new ThreadStart(ReadValues));
                 threadPlc.IsBackground = false;
                 threadPlc.Start();
@@ -73,11 +77,6 @@ namespace PLCCommunication
 
                 Thread.Sleep(200);
             }
-        }
-
-        private void btnReset4_Click(object sender, RoutedEventArgs e)
-        {
-            plc.PLCInstance.Write(plc.DicBitReset["4"], 0);
         }
     }
 }

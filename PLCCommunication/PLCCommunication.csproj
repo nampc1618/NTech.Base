@@ -21,7 +21,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>C:\Users\NAMPC\Desktop\BuildTestPLC\build\</OutputPath>
+    <OutputPath>C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -38,6 +38,9 @@
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>..\NTech.Project\PSS_XM\NTech.Xm.Station\Assets\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.31\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
     <Reference Include="S7.Net, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d5812d469e84c693, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -71,6 +74,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\ResetCmd.cs" />
     <Compile Include="Converters\ConverterPlcConnectToString.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -123,4 +127,24 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\NLog.dll
+del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\OpenCvSharp.CPlusPlus.dll
+del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\OpenCvSharp.dll
+del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\OpenCvSharp.Extensions.dll
+del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\NLog.xml
+del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\OpenCvSharp.CPlusPlus.xml
+del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\OpenCvSharp.xml
+del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\OpenCvSharp.Extensions.xml
+del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\OpenCvSharp.CPlusPlus.dll.config
+del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\OpenCvSharp.dll.config
+
+del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\Microsoft.Xaml.Behaviors.pdb
+del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\NTech.Base.Commons.pdb
+del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\NTech.Base.Resources.pdb
+del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\NTech.Xm.Commons.pdb
+del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\PLCCommunication.pdb
+
+copy /Y C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC E:\Nampc\@NTECH\CUSTOMER\PSS\PROJECT\NT01-PROJECT_XM_PSS_18082022\Deloy\Line3\x64</PostBuildEvent>
+  </PropertyGroup>
 </Project>

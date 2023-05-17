@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Xml;
 using NTech.Base.Commons.BaseModel;
 using NTech.Base.Resources.NNetSocket;
@@ -152,71 +153,63 @@ namespace PLCCommunication
 
         }
 
-        private void NServerSocket_ConnectionEventCallback(NServerSocket.EConnectionEventServer e, object obj)
+        private async void NServerSocket_ConnectionEventCallback(NServerSocket.EConnectionEventServer e, object obj)
         {
-            
+
             switch (e)
             {
                 case NServerSocket.EConnectionEventServer.SERVER_LISTEN:
                     _statusServer = "ServicePLC Started";
                     break;
                 case NServerSocket.EConnectionEventServer.SERVER_RECEIVEDATA:
-                    if(NServerSocket.ReceiveString != null)
+                    if (NServerSocket.ReceiveString != null)
                     {
-                        string dataReceived = NServerSocket.ReceiveString;
-                        //syntax: StrTag + "," + "Rst" . For example: L3P1,Rst
-                        string[] arr = dataReceived.Split(new char[] { ',' });
-                        if (arr[0] != null && arr[1].Equals("Rst"))
-                        {
-                            switch(arr[0])
-                            {
-                                //Line 2
-                                case "L2P1":
-                                    PLCInstance.Write(DicBitReset["1"], 0);
-                                    break;
-                                case "L2P2":
-                                    PLCInstance.Write(DicBitReset["2"], 0);
-                                    break;
-                                case "L2P3":
-                                    PLCInstance.Write(DicBitReset["3"], 0);
-                                    break;
-                                case "L2P4":
-                                    PLCInstance.Write(DicBitReset["4"], 0);
-                                    break;
-                                case "L2P5":
-                                    PLCInstance.Write(DicBitReset["5"], 0);
-                                    break;
-                                case "L2P6":
-                                    PLCInstance.Write(DicBitReset["6"], 0);
-                                    break;
-                                //Line 3
-                                case "L3P1":
-                                    PLCInstance.Write(DicBitReset["1"], 0);
-                                    break;
-                                case "L3P2":
-                                    PLCInstance.Write(DicBitReset["2"], 0);
-                                    break;
-                                case "L3P3":
-                                    PLCInstance.Write(DicBitReset["3"], 0);
-                                    break;
-                                case "L3P4":
-                                    PLCInstance.Write(DicBitReset["4"], 0);
-                                    break;
-                                case "L3P5":
-                                    PLCInstance.Write(DicBitReset["5"], 0);
-                                    break;
-                                case "L3P6":
-                                    PLCInstance.Write(DicBitReset["6"], 0);
-                                    break;
-                            }
-                        }
+                        await HandleReceivedDataEvent(NServerSocket.ReceiveString);
                     }
                     break;
                 default:
                     break;
             }
         }
-
+        private Task HandleReceivedDataEvent(string data)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                //syntax: StrTag + "," + "Rst" . For example: L3P1,Rst
+                string[] arr = data.Split(new char[] { ',' });
+                if (arr[0] != null && arr[1].Equals("R"))
+                {
+                    switch (arr[0])
+                    {
+                        //Line 2
+                        case "L2P1":
+                        case "L3P1":
+                            SetBit(DicBitReset["1"]);
+                            break;
+                        case "L2P2":
+                        case "L3P2":
+                            SetBit(DicBitReset["2"]);
+                            break;
+                        case "L2P3":
+                        case "L3P3":
+                            SetBit(DicBitReset["3"]);
+                            break;
+                        case "L2P4":
+                        case "L3P4":
+                            SetBit(DicBitReset["4"]);
+                            break;
+                        case "L2P5":
+                        case "L3P5":
+                            SetBit(DicBitReset["5"]);
+                            break;
+                        case "L2P6":
+                        case "L3P6":
+                            SetBit(DicBitReset["6"]);
+                            break;
+                    }
+                }
+            });
+        }
         public void CheckLineWithIPPC()
         {
             if (CommonDefines.GetLocalIPv4Addresses().Equals(CommonDefines.IP_PC_LINE2))
@@ -289,6 +282,11 @@ namespace PLCCommunication
                 }
             }
         }
+        public void SetBit(string addressBit)
+        {
+            if (PLCInstance.IsConnected)
+                PLCInstance.Write(addressBit, 1);
+        }
         private CancellationTokenSource _cancellationTokenSource;
         private Task _taskRun;
         public void Start(int delay)
@@ -297,7 +295,7 @@ namespace PLCCommunication
                 return;
             SemaphoreSlim initializationSemaphore = new SemaphoreSlim(0, 1);
             _cancellationTokenSource = new CancellationTokenSource();
-            
+
             _taskRun = Task.Run(async () =>
             {
                 try
@@ -353,5 +351,7 @@ namespace PLCCommunication
                 MessageBox.Show(ex.Message);
             }
         }
+
+        public ICommand ResetCmd { get; set; }
     }
 }
