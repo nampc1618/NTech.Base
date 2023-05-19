@@ -195,7 +195,7 @@ namespace NTech.Xm.Station.ViewModels
                     //this.WirteLogSystem(this.MainView.paraLog, _nClientSocketLocalHost.ReceiveString, Define.SolidColorOK);
                     break;
                 case NClientSocket.EConnectionEventClient.CLIENTCONNECTED:
-                    this.WirteLogSystem(this.MainView.paraLog, $"Da ket noi duoc voi Service PLC", Define.SolidColorOK);
+                    this.WirteLogSystem(this.MainView.paraLog, $"Đã kết nối với Service PLC", Define.SolidColorOK);
                     break;
                 case NClientSocket.EConnectionEventClient.CLIENTDISCONNECTED:
                     break;

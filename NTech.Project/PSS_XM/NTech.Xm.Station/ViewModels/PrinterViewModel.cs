@@ -600,7 +600,7 @@ namespace NTech.Xm.Station.ViewModels
 
                                             if (((byte)chs[5]) == 27 || ((byte)chs[6]) == 27 || ((byte)chs[7]) == 27 || ((byte)chs[8]) == 27)
                                             {
-                                                hexValue1= ((byte)chs[9]).ToString("X");
+                                                hexValue1 = ((byte)chs[9]).ToString("X");
                                                 hexValue2 = ((byte)chs[8]).ToString("X");
                                                 hexValue3 = ((byte)chs[7]).ToString("X");
                                                 hexValue4 = ((byte)chs[6]).ToString("X");
@@ -619,7 +619,7 @@ namespace NTech.Xm.Station.ViewModels
                                                 return;
                                             }
 
-                                            if((((byte)chs[9]) == 0 || ((byte)chs[9]) == 3))
+                                            if ((((byte)chs[9]) == 0 || ((byte)chs[9]) == 3))
                                             {
                                                 if (!_flag)
                                                 {
@@ -826,6 +826,8 @@ namespace NTech.Xm.Station.ViewModels
                                         printer.MESSAGE_STATE = MESSAGE_STATE.PRINTING;
                                         // Code send reset command to PLC
                                         MainViewModel.Instance.SendCmdToPlc($"{printer.StrTag},R");
+
+                                        MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"data send to PLC: {printer.StrTag},R", Define.SolidColorFail);
                                         MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"{printer.PrinterName} bật in thành công", Define.SolidColorOK);
 
                                         printer.Start(200);
@@ -866,7 +868,10 @@ namespace NTech.Xm.Station.ViewModels
                                     printer.Stop();
                                     if (printer.MessagesDetailModel != null)
                                     {
-                                        printer.MessagesDetailModel.NumberBagsPrinted += printer.MessagePrintCount;
+                                        if (SettingsViewModel.Instance.UsePLC.Equals("true"))
+                                            printer.MessagesDetailModel.NumberBagsPrinted += (int)printer.PlcCount;
+                                        else
+                                            printer.MessagesDetailModel.NumberBagsPrinted += printer.MessagePrintCount;
                                         printer.MessagesDetailModel.MessageState = Define.GetEnumDescription(MESSAGE_STATE.NOT_PRINT_DONE);
                                         MainViewModel.Instance.UpdateNumberBagPrintedAndMessageState(printer.MessagesDetailModel);
                                     }
