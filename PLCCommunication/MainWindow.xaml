@@ -4,10 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PLCCommunication"
-        xmlns:vm="clr-namespace:PLCCommunication"
+        xmlns:vm="clr-namespace:PLCCommunication.ViewModel"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:conv="clr-namespace:PLCCommunication.Converters"
-        d:DataContext="{d:DesignInstance vm:PLC}"
+        d:DataContext="{d:DesignInstance vm:MainViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="520" Width="550
         ">
@@ -36,35 +36,35 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding PLCLine}"
+                            <TextBlock Text="{Binding PLCViewModel.PLCModel.PLCLine}"
                                    VerticalAlignment="Center"
                                    FontSize="22"
                                    FontWeight="Bold"
                                    Margin="3 0 0 0" />
-                            <TextBlock Text="{Binding IP}"
+                            <TextBlock Text="{Binding PLCViewModel.PLCModel.IP}"
                                    Name="tbIP"
                                    VerticalAlignment="Center"
                                    Margin="10 0 0 0"
                                    FontSize="18"
                                    FontWeight="Bold" />
-                            <TextBlock Text="{Binding PLCConnected, Converter={StaticResource ConverterPlcConnectToString}}"
+                            <TextBlock Text="{Binding PLCViewModel.PLCModel.PLCConnected, Converter={StaticResource ConverterPlcConnectToString}}"
                                    Name="tbStatusPLC"
                                    Margin="20 0 0 0"
                                    VerticalAlignment="Center"
                                    FontSize="18"
                                    FontWeight="SemiBold"
-                                   Foreground="{Binding PLCConnected, Converter={StaticResource ConverterPlcConnectToForeground}}" />
+                                   Foreground="{Binding PLCViewModel.PLCModel.PLCConnected, Converter={StaticResource ConverterPlcConnectToForeground}}" />
                         </StackPanel>
                         <Button Margin="5 2 0 2"
                                 Grid.Column="1"
-                                IsEnabled="{Binding PLCConnected}"
+                                IsEnabled="{Binding PLCViewModel.PLCModel.PLCConnected}"
                                 Content="STOP"
                                 Name="btnStop"
                                 Padding="2"
                                 Width="100"
                                 FontSize="18"
                                 FontWeight="Bold" 
-                                Click="btnStop_Click"/>
+                                Command="{Binding StopCmd}"/>
                     </Grid>
                 </Border>
                 <Border Grid.Row="1"
@@ -102,7 +102,7 @@
                                            Foreground="Red"
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"
-                                           Text="...."/>
+                                           Text="0"/>
                                 </StackPanel>
                                 <Button Margin="5 2 0 2"
                                         Grid.Column="1"
@@ -143,7 +143,7 @@
                                            Foreground="Red"
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"
-                                           Text="...."/>
+                                           Text="0"/>
                                 </StackPanel>
                                 <Button Margin="5 2 0 2"
                                         Grid.Column="1"
@@ -183,7 +183,7 @@
                                            Foreground="Red"
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"
-                                           Text="...."/>
+                                           Text="0"/>
                                 </StackPanel>
                                 <Button Margin="5 2 0 2"
                                         Grid.Column="1"
@@ -223,7 +223,7 @@
                                            Foreground="Red"
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"
-                                           Text="...."/>
+                                           Text="0"/>
                                 </StackPanel>
                                 <Button Margin="5 2 0 2"
                                         Grid.Column="1"
@@ -263,7 +263,7 @@
                                            Foreground="Red"
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"
-                                           Text="...."/>
+                                           Text="0"/>
                                 </StackPanel>
                                 <Button Margin="5 2 0 2"
                                         Grid.Column="1"
@@ -303,7 +303,7 @@
                                            Foreground="Red"
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"
-                                           Text="...."/>
+                                           Text="0"/>
                                 </StackPanel>
                                 <Button Margin="5 2 0 2"
                                         Grid.Column="1"
@@ -327,7 +327,7 @@
                         BorderBrush="LightGray"
                         BorderThickness="1"
                         Margin="2">
-                    <TextBlock Text="{Binding StatusServer}"
+                    <TextBlock Text="{Binding PLCViewModel.PLCModel.StatusServer}"
                                Name="tbStatusServer"
                                Foreground="ForestGreen"
                                VerticalAlignment="Center"

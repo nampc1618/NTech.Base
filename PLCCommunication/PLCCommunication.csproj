@@ -66,6 +66,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\StopCmd.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\PLCViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -82,7 +85,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PLC.cs" />
+    <Compile Include="Model\PLCModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -138,12 +141,6 @@ del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\OpenCvSharp.xml
 del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\OpenCvSharp.Extensions.xml
 del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\OpenCvSharp.CPlusPlus.dll.config
 del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\OpenCvSharp.dll.config
-
-del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\Microsoft.Xaml.Behaviors.pdb
-del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\NTech.Base.Commons.pdb
-del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\NTech.Base.Resources.pdb
-del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\NTech.Xm.Commons.pdb
-del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\PLCCommunication.pdb
 
 copy /Y C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC E:\Nampc\@NTECH\CUSTOMER\PSS\PROJECT\NT01-PROJECT_XM_PSS_18082022\Deloy\Line3\x64</PostBuildEvent>
   </PropertyGroup>
