@@ -135,6 +135,7 @@ namespace NTech.Xm.Station.ViewModels
                 _nClientSocketLocalHost.ConnectionEventCallback += ConnectionCallBack_LocalHost;
                 _nClientSocketLocalHost.ClientErrorEventCallback += ErrorCallBack_LocalHost;
                 _nClientSocketLocalHost.ClientConnect(dataReceiveIsUTF8);
+                //_nClientSocketLocalHost.SendMsg("Run");
             }
 
             this._nServerSocket = new NServerSocket();
@@ -182,16 +183,19 @@ namespace NTech.Xm.Station.ViewModels
             MessageBox.Show(errorMsg);
         }
 
-        private async void ConnectionCallBack_LocalHost(NClientSocket.EConnectionEventClient e, object obj)
+        private void ConnectionCallBack_LocalHost(NClientSocket.EConnectionEventClient e, object obj)
         {
             switch (e)
             {
                 case NClientSocket.EConnectionEventClient.RECEIVEDATA:
                     //Handle data received from PLC
-                    if (_nClientSocketLocalHost.ReceiveString != null)
+                    this._dispatcher.BeginInvoke(new Action(async () =>
                     {
-                        await HandleDataReceivedFromPlc(_nClientSocketLocalHost.ReceiveString);
-                    }
+                        if (_nClientSocketLocalHost.ReceiveString != null)
+                        {
+                            await HandleDataReceivedFromPlc(_nClientSocketLocalHost.ReceiveString);
+                        }
+                    }));
                     //this.WirteLogSystem(this.MainView.paraLog, _nClientSocketLocalHost.ReceiveString, Define.SolidColorOK);
                     break;
                 case NClientSocket.EConnectionEventClient.CLIENTCONNECTED:

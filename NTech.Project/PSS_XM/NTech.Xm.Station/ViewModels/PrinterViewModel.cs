@@ -825,6 +825,7 @@ namespace NTech.Xm.Station.ViewModels
                                         printer.PRINTER_STATES = PRINTER_STATES.PRINTING;
                                         printer.MESSAGE_STATE = MESSAGE_STATE.PRINTING;
                                         // Code send reset command to PLC
+                                        //MainViewModel.Instance.SendCmdToPlc(printer.Tag.ToString());
                                         MainViewModel.Instance.SendCmdToPlc($"{printer.StrTag},R");
 
                                         MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"data send to PLC: {printer.StrTag},R", Define.SolidColorFail);
