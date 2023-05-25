@@ -365,7 +365,7 @@ namespace NTech.Base.Resources.NNetSocket
                 return;
             if (!ConnectToServer(this.IpAddress, this.Port))
                 return;
-            SendMsg("Hi,Server!");
+            //SendMsg("Hi,Server!");
             WaitForData(dataReceiveIsUTF8);
             ConnectionEventCallback?.Invoke(EConnectionEventClient.CLIENTCONNECTED, true);
         }
