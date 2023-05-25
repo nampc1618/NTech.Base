@@ -538,7 +538,7 @@ namespace NTech.Xm.Station.ViewModels
         {
             _nClientSocketLocalHost.SendMsg(cmd);
         }
-        public void SendStopCmdToPlcProcess(string cmd)
+        public void SendStartStopCmdToPlcProcess(string cmd)
         {
             _nClientSocketLocalHost.SendMsg(cmd);
         }
