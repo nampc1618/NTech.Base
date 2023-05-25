@@ -534,7 +534,11 @@ namespace NTech.Xm.Station.ViewModels
         public string NowDateConverted { get; set; }
 
         #region Methods
-        public void SendCmdToPlc(string cmd)
+        public void SendResetCmdToPlc(string cmd)
+        {
+            _nClientSocketLocalHost.SendMsg(cmd);
+        }
+        public void SendStopCmdToPlcProcess(string cmd)
         {
             _nClientSocketLocalHost.SendMsg(cmd);
         }

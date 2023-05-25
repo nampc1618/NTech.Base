@@ -826,7 +826,7 @@ namespace NTech.Xm.Station.ViewModels
                                         printer.MESSAGE_STATE = MESSAGE_STATE.PRINTING;
                                         // Code send reset command to PLC
                                         //MainViewModel.Instance.SendCmdToPlc(printer.Tag.ToString());
-                                        MainViewModel.Instance.SendCmdToPlc($"{printer.StrTag},R");
+                                        MainViewModel.Instance.SendResetCmdToPlc($"{printer.StrTag},R");
 
                                         MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"data send to PLC: {printer.StrTag},R", Define.SolidColorFail);
                                         MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"{printer.PrinterName} bật in thành công", Define.SolidColorOK);
@@ -867,6 +867,7 @@ namespace NTech.Xm.Station.ViewModels
 
                                     printer.PRINTER_STATES = PRINTER_STATES.PRINT_STOP; //add new 22-11-2022
                                     printer.Stop();
+                                    MainViewModel.Instance.SendStopCmdToPlcProcess("Stop");
                                     if (printer.MessagesDetailModel != null)
                                     {
                                         if (SettingsViewModel.Instance.UsePLC.Equals("true"))
