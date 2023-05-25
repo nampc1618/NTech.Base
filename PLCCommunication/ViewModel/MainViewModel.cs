@@ -85,6 +85,11 @@ namespace PLCCommunication.ViewModel
                     PLCViewModel.PLCModel.StopProcess();
                     return;
                 }
+                if (data.Contains("Start"))
+                {
+                    PLCViewModel.PLCModel.StartProcess(200);
+                    return;
+                }
                 //syntax: StrTag + "," + "Rst" . For example: L3P1,R
                 string[] arr = data.Split(new char[] { ',' });
                 if (arr[0] != null && arr[1].Contains("R"))
