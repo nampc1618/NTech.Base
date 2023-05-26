@@ -136,10 +136,16 @@ namespace PLCCommunication
         {
         }
 
-        public void SetBit(string addressBit)
+        public Task SetBit(string addressBit)
         {
-            if (PLCs71200.IsConnected)
-                PLCs71200.Write(addressBit, 1);
+            return Task.Run(async () =>
+            {
+                if (PLCs71200.IsConnected)
+                {
+                    PLCs71200.Write(addressBit, 1);
+                    await Task.Delay(2);
+                }
+            });
         }
 
         private CancellationTokenSource _cancellationTokenSource;

@@ -78,75 +78,38 @@ namespace PLCCommunication.ViewModel
         }
         private Task HandleReceivedDataEvent(string data)
         {
-            return Task.Run(() =>
+            return Task.Run((Func<Task>)(async () =>
             {
-                if(data.Contains("Stop"))
-                {
-                    PLCViewModel.PLCModel.StopProcess();
-                    return;
-                }
-                if (data.Contains("Start"))
-                {
-                    PLCViewModel.PLCModel.StartProcess(200);
-                    return;
-                }
                 //syntax: StrTag + "," + "Rst" . For example: L3P1,R
-                string[] arr = data.Split(new char[] { ',' });
-                if (arr[0] != null && arr[1].Contains("R"))
+                //string[] data = data.Split(new char[] { ',' });
+                if (data != null && data.Contains("R"))
                 {
-                    if(arr[0].Contains("L2P1") || arr[0].Contains("L3P1"))
+                    if(data.Contains("L2P1") || data.Contains("L3P1"))
                     {
-                        PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["1"]);
+                        await PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["1"]);
                     }
-                    else if (arr[0].Contains("L2P2") || arr[0].Contains("L3P2"))
+                    else if (data.Contains("L2P2") || data.Contains("L3P2"))
                     {
-                        PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["2"]);
+                        await PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["2"]);
                     }
-                    else if (arr[0].Contains("L2P3") || arr[0].Contains("L3P3"))
+                    else if (data.Contains("L2P3") || data.Contains("L3P3"))
                     {
-                        PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["3"]);
+                        await PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["3"]);
                     }
-                    else if (arr[0].Contains("L2P4") || arr[0].Contains("L3P4"))
+                    else if (data.Contains("L2P4") || data.Contains("L3P4"))
                     {
-                        PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["4"]);
+                        await PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["4"]);
                     }
-                    else if (arr[0].Contains("L2P5") || arr[0].Contains("L3P5"))
+                    else if (data.Contains("L2P5") || data.Contains("L3P5"))
                     {
-                        PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["5"]);
+                        await PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["5"]);
                     }
-                    else if (arr[0].Contains("L2P6") || arr[0].Contains("L3P6"))
+                    else if (data.Contains("L2P6") || data.Contains("L3P6"))
                     {
-                        PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["6"]);
+                        await PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["6"]);
                     }
-                    //switch (arr[0])
-                    //{
-                    //    case "L2P1":
-                    //    case "L3P1":
-                    //        PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["1"]);
-                    //        break;
-                    //    case "L2P2":
-                    //    case "L3P2":
-                    //        PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["2"]);
-                    //        break;
-                    //    case "L2P3":
-                    //    case "L3P3":
-                    //        PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["3"]);
-                    //        break;
-                    //    case "L2P4":
-                    //    case "L3P4":
-                    //        PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["4"]);
-                    //        break;
-                    //    case "L2P5":
-                    //    case "L3P5":
-                    //        PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["5"]);
-                    //        break;
-                    //    case "L2P6":
-                    //    case "L3P6":
-                    //        PLCViewModel.PLCModel.SetBit(PLCViewModel.PLCModel.DicBitReset["6"]);
-                    //        break;
-                    //}
                 }
-            });
+            }));
         }
         private Task HandleReceivedDataEvent_2(string data)
         {
