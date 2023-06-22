@@ -19,7 +19,8 @@ namespace NTech.Xm.Station.Command
         {
             _mainViewModel.Reconnect();
             //_mainViewModel.SelectMessagesDetail_NewAndAll(_mainViewModel.StrDateNow);
-            _mainViewModel.SelectMessagesDetail_All2Day();
+            //_mainViewModel.SelectMessagesDetail_All2Day();
+            _mainViewModel.SelectMessagesDetail_All2Day_New();
             //_mainViewModel.SelectMessagesDetail_Printing(_mainViewModel.StrDateNow);
             _mainViewModel.SelectMessagesDetail_AllPrinting();
         }
