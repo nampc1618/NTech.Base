@@ -36,7 +36,8 @@
                  GlowBrush="#1A1F2B"
                  Background="#D2DBE4"
                  TitleBarHeight="45"
-                 Loaded="MetroWindow_Loaded">
+                 Loaded="MetroWindow_Loaded"
+                 Closing="MetroWindow_Closing">
     <!--D2DBE4, E9E9EC-->
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">

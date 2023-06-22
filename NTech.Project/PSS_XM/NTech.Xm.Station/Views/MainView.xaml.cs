@@ -91,5 +91,10 @@ namespace NTech.Xm.Station.Views
             ObservableCollection<MessagesDetailModel> obMsg = new ObservableCollection<MessagesDetailModel>(filter);
             MainViewModel.Instance.AllMessagesDetailList = obMsg;
         }
+
+        private void MetroWindow_Closing(object sender, CancelEventArgs e)
+        {
+            MainViewModel.Instance.StopProcessCheckChangeDate();
+        }
     }
 }
