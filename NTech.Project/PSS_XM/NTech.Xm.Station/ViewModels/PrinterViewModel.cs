@@ -238,11 +238,13 @@ namespace NTech.Xm.Station.ViewModels
         }
         public void SelectMessageDetaiNewestlForPrinter_2(PRINTER printer)
         {
-            DateTime? nowDate = DateTime.Now.Date;
-            DateTime? preDate = DateTime.Now.Date.AddDays(-7);
+            DateTime nowDate = DateTime.Now.Date;
+            DateTime preDate = DateTime.Now.Date.AddDays(-1);
 
-            var database = _taskManagerDB.SelectMessagesDetailBetween2Date(DBName, preDate, nowDate);
+            var database = _taskManagerDB.SelectMessagesDetailByDate_2(DBName, new string[2] { preDate.ToString("dd-MM-yyyy"), nowDate.ToString("dd-MM-yyyy") });
             var listMessageDetailModel = database?.DataSet?.Tables[0].ToObservableCollection<MessagesDetailModel>();
+            if (listMessageDetailModel == null)
+                return;
 
             var printingMsgDetailList = listMessageDetailModel
                                         .Where(x => x.Guid == printer.GuidMsgNewest && x.Line == this.LineViewModel.LINEByUse.LineName)
@@ -701,7 +703,8 @@ namespace NTech.Xm.Station.ViewModels
                                                     //MainViewModel.Instance.SelectMessagesDetail_Printing(DateNow);
                                                     //MainViewModel.Instance.SelectMessagesDetail_NewAndAll(DateNow);
                                                     MainViewModel.Instance.SelectMessagesDetail_AllPrinting();
-                                                    MainViewModel.Instance.SelectMessagesDetail_All2Day();
+                                                    //MainViewModel.Instance.SelectMessagesDetail_All2Day();
+                                                    MainViewModel.Instance.SelectMessagesDetail_All2Day_New();
                                                     MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"{printer.PrinterName} đang in", Define.SolidColorOK);
 
                                                     printer.NumberBag = (printer.MessagesDetailModel.NumberBags);
@@ -808,7 +811,8 @@ namespace NTech.Xm.Station.ViewModels
                                             //MainViewModel.Instance.SelectMessagesDetail_Printing(DateNow);
                                             //MainViewModel.Instance.SelectMessagesDetail_NewAndAll(DateNow);
                                             MainViewModel.Instance.SelectMessagesDetail_AllPrinting();
-                                            MainViewModel.Instance.SelectMessagesDetail_All2Day();
+                                            //MainViewModel.Instance.SelectMessagesDetail_All2Day();
+                                            MainViewModel.Instance.SelectMessagesDetail_All2Day_New();
                                         }
                                         else
                                         {
@@ -820,7 +824,8 @@ namespace NTech.Xm.Station.ViewModels
                                             //MainViewModel.Instance.SelectMessagesDetail_Printing(DateNow);
                                             //MainViewModel.Instance.SelectMessagesDetail_NewAndAll(DateNow);
                                             MainViewModel.Instance.SelectMessagesDetail_AllPrinting();
-                                            MainViewModel.Instance.SelectMessagesDetail_All2Day();
+                                            //MainViewModel.Instance.SelectMessagesDetail_All2Day();
+                                            MainViewModel.Instance.SelectMessagesDetail_All2Day_New();
                                         }
                                         printer.PRINTER_STATES = PRINTER_STATES.PRINTING;
                                         printer.MESSAGE_STATE = MESSAGE_STATE.PRINTING;
@@ -880,7 +885,8 @@ namespace NTech.Xm.Station.ViewModels
                                     //MainViewModel.Instance.SelectMessagesDetail_Printing(DateNow);
                                     //MainViewModel.Instance.SelectMessagesDetail_NewAndAll(DateNow);
                                     MainViewModel.Instance.SelectMessagesDetail_AllPrinting();
-                                    MainViewModel.Instance.SelectMessagesDetail_All2Day();
+                                    //MainViewModel.Instance.SelectMessagesDetail_All2Day();
+                                    MainViewModel.Instance.SelectMessagesDetail_All2Day_New();
 
                                     //Kiểm tra số lượng đã in và hiển thị bảng chỉnh sửa - 22/11/2022
                                     if (printer.MessagesDetailModel.NumberBagsPrinted > printer.MessagesDetailModel.NumberBags ||

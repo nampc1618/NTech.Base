@@ -33,11 +33,13 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using static System.Net.Mime.MediaTypeNames;
 using Kis.Toolkit;
+using log4net.Repository.Hierarchy;
 
 namespace NTech.Xm.Station.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        public log4net.ILog Logger { get; } = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly Dispatcher _dispatcher;
         private NClientSocket _nClientSocket;
         private NClientSocket _nClientSocketLocalHost;
@@ -56,6 +58,8 @@ namespace NTech.Xm.Station.ViewModels
 
         //Thread detect day change
         Thread _threadDetectDayChange;
+        private Task _taskCheckChangeDate;
+        private CancellationTokenSource _cancellationTokenSource;
 
         //Timer detect day change
         //DispatcherTimer _disTimerDetectDayChange;
@@ -135,7 +139,6 @@ namespace NTech.Xm.Station.ViewModels
                 _nClientSocketLocalHost.ConnectionEventCallback += ConnectionCallBack_LocalHost;
                 _nClientSocketLocalHost.ClientErrorEventCallback += ErrorCallBack_LocalHost;
                 _nClientSocketLocalHost.ClientConnect(dataReceiveIsUTF8);
-                //_nClientSocketLocalHost.SendMsg("Run");
             }
 
             this._nServerSocket = new NServerSocket();
@@ -159,17 +162,21 @@ namespace NTech.Xm.Station.ViewModels
             this.StartDateConverted = _startDate?.ToString("dd-MM-yyyy");
             this.EndDateConverted = _endDate?.ToString("dd-MM-yyyy");
 
-            _nowDate = DateTime.Now.Date;
-            _lastDate = DateTime.Now.Date.AddDays(-1);
+            this._lastDate = DateTime.Now.Date.AddDays(-1);
+            this._nowDate = DateTime.Now;
+            this.LastDateConverted = _lastDate?.ToString("dd-MM-yyyy");
+            this.NowDateConverted = _nowDate?.ToString("dd-MM-yyyy");
 
             this.StrDateNow = DateNow.ToString("dd-MM-yyyy");
             //this.SelectMessagesDetail_NewAndAll(StrDateNow);
-            SelectMessagesDetail_All2Day();
+            //SelectMessagesDetail_All2Day();
+            SelectMessagesDetail_All2Day_New();
 
 
-            this._threadDetectDayChange = new Thread(new ThreadStart(DetectDayChange));
-            this._threadDetectDayChange.Start();
-            this._threadDetectDayChange.IsBackground = true;
+            //this._threadDetectDayChange = new Thread(new ThreadStart(DetectDayChange));
+            //this._threadDetectDayChange.Start();
+            //this._threadDetectDayChange.IsBackground = true;
+            this.StartProcessCheckChangeDate(1000);
 
             //_disTimerDetectDayChange = new DispatcherTimer();
             //_disTimerDetectDayChange.Interval = TimeSpan.FromSeconds(5);
@@ -236,7 +243,75 @@ namespace NTech.Xm.Station.ViewModels
         //    }
 
         //}
+        public void StartProcessCheckChangeDate(int delay)
+        {
+            if (_taskCheckChangeDate != null && !_taskCheckChangeDate.IsCompleted)
+                return;
+            SemaphoreSlim initializationSemaphore = new SemaphoreSlim(0, 1);
+            _cancellationTokenSource = new CancellationTokenSource();
 
+            _taskCheckChangeDate = Task.Run(async () =>
+            {
+                try
+                {
+                    while (!_cancellationTokenSource.IsCancellationRequested)
+                    {
+                        TimeSpan span = new TimeSpan(24, 0, 0);
+                        TimeSpan comparision;
+
+                        DateTime B = DateTime.Now.AddDays(0);
+                        comparision = B - DateNow;
+                        if (comparision > span)
+                        {
+                            NowDate = DateTime.Now.Date;
+                            LastDate = DateTime.Now.Date.AddDays(-1);
+                            NowDateConverted = NowDate?.ToString("dd-MM-yyyy");
+                            LastDateConverted = LastDate?.ToString("dd-MM-yyyy");
+
+                            //SelectMessagesDetail_All2Day();
+                            SelectMessagesDetail_All2Day_New();
+                        }
+
+                        if (initializationSemaphore != null)
+                            initializationSemaphore.Release();
+                        await Task.Delay(delay);
+                    }
+                }
+                finally
+                {
+                    if (initializationSemaphore != null)
+                        initializationSemaphore.Release();
+                }
+            }, _cancellationTokenSource.Token);
+
+            //await initializationSemaphore.WaitAsync();
+            initializationSemaphore.Dispose();
+            initializationSemaphore = null;
+
+            if (_taskCheckChangeDate.IsFaulted)
+            {
+                //await _taskRun;
+            }
+        }
+        public void StopProcessCheckChangeDate()
+        {
+            try
+            {
+                if (_cancellationTokenSource == null) return;
+                if (_cancellationTokenSource.IsCancellationRequested)
+                    return;
+                if (!_taskCheckChangeDate.IsCompleted)
+                {
+
+                    _cancellationTokenSource.Cancel();
+                    //await _taskRun;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         void DetectDayChange()
         {
             while (true)
@@ -254,10 +329,11 @@ namespace NTech.Xm.Station.ViewModels
                         //StrDateNow = DateNow.ToString("dd-MM-yyyy");
                         //this.SelectMessagesDetail_NewAndAll(StrDateNow);
 
-                        _nowDate = DateTime.Now.Date;
-                        _lastDate = DateTime.Now.Date.AddDays(-1);
+                        NowDate = DateTime.Now.Date;
+                        LastDate = DateTime.Now.Date.AddDays(-1);
 
-                        SelectMessagesDetail_All2Day();
+                        //SelectMessagesDetail_All2Day();
+                        SelectMessagesDetail_All2Day_New();
                     }
                 }
                 Thread.Sleep(2000);
@@ -283,7 +359,8 @@ namespace NTech.Xm.Station.ViewModels
                             if (DATA_RECEIVED.Contains("Prt"))
                             {
                                 //this.SelectMessagesDetail_NewAndAll(StrDateNow);
-                                SelectMessagesDetail_All2Day();
+                                //SelectMessagesDetail_All2Day();
+                                SelectMessagesDetail_All2Day_New();
                             }
                             else if (DATA_RECEIVED.Contains("NPrD"))
                             {
@@ -308,7 +385,8 @@ namespace NTech.Xm.Station.ViewModels
                         if (DATA_RECEIVED.Contains("NeM") || DATA_RECEIVED.Contains("DeM"))
                         {
                             //this.SelectMessagesDetail_NewAndAll(StrDateNow);
-                            SelectMessagesDetail_All2Day();
+                            //SelectMessagesDetail_All2Day();
+                            SelectMessagesDetail_All2Day_New();
                         }
                         break;
                     case NClientSocket.EConnectionEventClient.CLIENTCONNECTED:
@@ -697,6 +775,30 @@ namespace NTech.Xm.Station.ViewModels
             this.AllMessagesDetailListClone = this.AllMessagesDetailList;
 
         }
+        /// <summary>
+        /// Cái này để chọn 2 ngày liền nhau!
+        /// Thay cho hàm: SelectMessagesDetail_All2Day (vì lỡ để định dạng ManufactureDate là varchar)
+        /// </summary>
+        /// <param name="arrDate"></param>
+        public void SelectMessagesDetail_All2Day_New()
+        {
+            var database = _taskManagerDB.SelectMessagesDetailByDate_2(DBName, new string[2] { LastDateConverted, NowDateConverted });
+            var listMessageDetail = database?.DataSet?.Tables[0].ToObservableCollection<MessagesDetailModel>();
+            if (listMessageDetail == null)
+                return;
+            Logger.Info("SelectMessagesDetail_All2Day_New(): Get data 2 days success.");
+            var newMsgDetailList = listMessageDetail.Where(x => x.NumberBagsPrinted == 0 && x.MessageState == "Chưa in")
+                                                    .ToList();
+            var allMsgDetailList = listMessageDetail.Where(x => !x.MessageState.Equals("Chưa in"))
+                                                    .ToList();
+
+            ObservableCollection<MessagesDetailModel> newMsgDetail = new ObservableCollection<MessagesDetailModel>(newMsgDetailList);
+            ObservableCollection<MessagesDetailModel> allMsgDetail = new ObservableCollection<MessagesDetailModel>(allMsgDetailList);
+            this.NewMessagesDetailList = newMsgDetail;
+            this.NewMessagesDetailListClone = this.NewMessagesDetailList;
+            this.AllMessagesDetailList = allMsgDetail;
+            this.AllMessagesDetailListClone = this.AllMessagesDetailList;
+        }
         public void SelectMessagesDetail_All2Day()
         {
             var database = _taskManagerDB.SelectMessagesDetailBetween2Date(DBName, LastDate, NowDate);
@@ -731,8 +833,7 @@ namespace NTech.Xm.Station.ViewModels
 
         public void SelectMessagesDetail_AllPrinting()
         {
-            var lastDate = NowDate?.AddDays(-10);
-            var database = _taskManagerDB.SelectMessagesDetailBetween2Date(DBName, lastDate, NowDate);
+            var database = _taskManagerDB.SelectMessagesDetailByDate_2(DBName, new string[2] { LastDateConverted, NowDateConverted });
             var listMessageDetail = database?.DataSet?.Tables[0].ToObservableCollection<MessagesDetailModel>();
             if (listMessageDetail == null)
                 return;
