@@ -50,6 +50,17 @@ namespace NTech.Xm.Database
             DBResultModel result = _task.SelectRoles(new DBRequestModel() { DBName = dbName });
             return result;
         }
+        /// <summary>
+        /// Cái này để chọn 2 ngày liền nhau!
+        /// </summary>
+        /// <param name="dbName"></param>
+        /// <param name="days"></param>
+        /// <returns></returns>
+        public DBResultModel SelectMessagesDetailByDate_2(string dbName, string[] days)
+        {
+            DBResultModel result = _task.SelectMessagesDetailByDate_2(new DBRequestModel() { DBName = dbName, CustomInputData = days });
+            return result;
+        }
         public DBResultModel SelectMessagesDetailByDate(string dbName, string[] day)
         {
             DBResultModel result = _task.SelectMessagesDetailByDate(new DBRequestModel() { DBName = dbName,  CustomInputData = day});

@@ -93,6 +93,23 @@ namespace NTech.Xm.Database.Task
             var result = dbService?.ExecuteDataSet(requestModel);
             return result;
         }
+        /// <summary>
+        /// Cái này để chọn 2 ngày liền nhau
+        /// </summary>
+        /// <param name="requestModel"></param>
+        /// <returns></returns>
+        public DBResultModel SelectMessagesDetailByDate_2(DBRequestModel requestModel)
+        {
+            StringBuilder query = new StringBuilder();
+            query.Append("Select * from dbo.MessagesDetail where ManufacturingDate = '" + requestModel.CustomInputData[0] + "' or ManufacturingDate = '" + requestModel.CustomInputData[1] + "' ");
+
+            requestModel.IsStoredProcedure = false;
+            requestModel.Query = query.ToString();
+
+            var dbService = DBConnector.Create(requestModel.DBName);
+            var result = dbService?.ExecuteDataSet(requestModel);
+            return result;
+        }
         public DBResultModel SelectMessagesDetailByDate(DBRequestModel requestModel)
         {
             StringBuilder query = new StringBuilder();
