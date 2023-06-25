@@ -64,10 +64,10 @@ namespace NTech.Xm.Station.ViewModels
         //Timer detect day change
         //DispatcherTimer _disTimerDetectDayChange;
 
-#if !LINE2
+#if LINE2
         private NClientSocket _nClientSocketLine2;
 #endif
-#if LINE3
+#if !LINE3
         private NClientSocket _nClientSocketLine3;
 #endif
 
@@ -146,11 +146,11 @@ namespace NTech.Xm.Station.ViewModels
             this._nServerSocket.ServerErrorEventCallback += _nServerSocket_ServerErrorEventCallback;
             this._nServerSocket.StartListening(PORT);
 
-#if !LINE2
+#if LINE2
             _nClientSocketLine2 = new NClientSocket("192.168.0.3", PORT);
             _nClientSocketLine2.ClientConnect();
 #endif
-#if LINE3
+#if !LINE3
             _nClientSocketLine3 = new NClientSocket("192.168.0.2", PORT);
             _nClientSocketLine3.ClientConnect();
 #endif
@@ -740,13 +740,13 @@ namespace NTech.Xm.Station.ViewModels
         {
             this._nClientSocket.SendMsg(text);
         }
-#if !LINE2
+#if LINE2
         public void SendMsgToLine3(string text)
         {
             this._nClientSocketLine2.SendMsg(text);
         }
 #endif
-#if LINE3
+#if !LINE3
         public void SendMsgToLine2(string text)
         {
             this._nClientSocketLine3.SendMsg(text);

@@ -802,10 +802,10 @@ namespace NTech.Xm.Station.ViewModels
                                             this.UpdateGuidMsgNewest();
                                             MainViewModel.Instance.UpdateMessageDetail();
                                             MainViewModel.Instance.SendMsgToServer("Prt");
-#if !LINE2
+#if LINE2
                                             MainViewModel.Instance.SendMsgToLine3("Prt");
 #endif
-#if LINE3
+#if !LINE3
                                             MainViewModel.Instance.SendMsgToLine2("Prt");
 #endif
                                             //MainViewModel.Instance.SelectMessagesDetail_Printing(DateNow);
@@ -1073,7 +1073,7 @@ namespace NTech.Xm.Station.ViewModels
             PRINTER2_LINE1.PRINTERClientSocket.ClientErrorEventCallback += PRINTER2_LINE1_ClientErrorEventCallback;
 #endif
 
-#if !LINE2
+#if LINE2
             PRINTER1_LINE2.PRINTERClientSocket = new NClientSocket(PRINTER1_LINE2.IPAddress, PRINTER1_LINE2.PORT_PRINTER);
             PRINTER2_LINE2.PRINTERClientSocket = new NClientSocket(PRINTER2_LINE2.IPAddress, PRINTER2_LINE2.PORT_PRINTER);
             PRINTER3_LINE2.PRINTERClientSocket = new NClientSocket(PRINTER3_LINE2.IPAddress, PRINTER3_LINE2.PORT_PRINTER);
@@ -1095,7 +1095,7 @@ namespace NTech.Xm.Station.ViewModels
             PRINTER6_LINE2.PRINTERClientSocket.ClientErrorEventCallback += PRINTER6_LINE2_ClientErrorEventCallback;
 #endif
 
-#if LINE3
+#if !LINE3
             PRINTER1_LINE3.PRINTERClientSocket = new NClientSocket(PRINTER1_LINE3.IPAddress, PRINTER1_LINE3.PORT_PRINTER);
             PRINTER2_LINE3.PRINTERClientSocket = new NClientSocket(PRINTER2_LINE3.IPAddress, PRINTER2_LINE3.PORT_PRINTER);
             PRINTER3_LINE3.PRINTERClientSocket = new NClientSocket(PRINTER3_LINE3.IPAddress, PRINTER3_LINE3.PORT_PRINTER);
@@ -1133,7 +1133,7 @@ namespace NTech.Xm.Station.ViewModels
         }
 #endif
 
-#if !LINE2
+#if LINE2
         private async void PRINTER1_LINE2_ConnectionEventCallback(NClientSocket.EConnectionEventClient e, object obj)
         {
             await this._dispatcher.BeginInvoke(new Action(async () =>
@@ -1199,7 +1199,7 @@ namespace NTech.Xm.Station.ViewModels
 #endif
 
 
-#if LINE3
+#if !LINE3
         private async void PRINTER1_LINE3_ConnectionEventCallback(NClientSocket.EConnectionEventClient e, object obj)
         {
             await this._dispatcher.BeginInvoke(new Action(async () =>
@@ -1283,7 +1283,7 @@ namespace NTech.Xm.Station.ViewModels
         }
 #endif
 
-#if !LINE2
+#if LINE2
         private void PRINTER1_LINE2_ClientErrorEventCallback(string errorMsg)
         {
             MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"{this.PRINTER1_LINE2.PrinterName} {errorMsg}", Define.SolidColorFail);
@@ -1316,7 +1316,7 @@ namespace NTech.Xm.Station.ViewModels
         }
 #endif
 
-#if LINE3
+#if !LINE3
         private void PRINTER1_LINE3_ClientErrorEventCallback(string errorMsg)
         {
             MainViewModel.Instance.WirteLogSystem(MainViewModel.Instance.MainView.paraLog, $"{this.PRINTER1_LINE3.PrinterName} {errorMsg}", Define.SolidColorFail);
