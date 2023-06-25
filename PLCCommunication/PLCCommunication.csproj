@@ -142,6 +142,6 @@ del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\OpenCvSharp.Extensions.xml
 del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\OpenCvSharp.CPlusPlus.dll.config
 del C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC\OpenCvSharp.dll.config
 
-copy /Y C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC E:\Nampc\@NTECH\CUSTOMER\PSS\PROJECT\NT01-PROJECT_XM_PSS_18082022\Deloy\Line3\x64</PostBuildEvent>
+copy /Y C:\Users\NAMPC\Desktop\BuildTestPLC\buildPLC E:\Nampc\@NTECH\CUSTOMER\PSS\PROJECT\NT01-PROJECT_XM_PSS_18082022\Deloy\Line2\x64</PostBuildEvent>
   </PropertyGroup>
 </Project>
